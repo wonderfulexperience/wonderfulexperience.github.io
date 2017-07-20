@@ -14,7 +14,7 @@
                     health_input = "not defined";
                     religious_input = "not defined";
                     age_input = "not defined";
-                    reload_data(csv_filename);
+                    load_initial(csv_filename);
                     document.querySelector('#income_output').value = "Select an income bracket";
                     document.querySelector('#friends_output').value = "Select number of friends";
                     document.querySelector('#health_output').value = "Select level of health";
