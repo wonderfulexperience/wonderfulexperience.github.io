@@ -1,0 +1,158 @@
+
+
+* {box-sizing: border-box}
+
+body {
+  margin:0;
+  padding:0;
+  line-height: 1.5em;
+  font-family: "Futura", Verdana, Helvetica, Arial;
+  font-size: 14px;
+  color: #000000;
+  background: #CCCCCC;
+}
+a:link, a:visited { color: #0066CC; text-decoration: none} 
+a:active, a:hover { color: #008800; text-decoration: underline}
+
+#header {
+  clear: left;
+  height: 179px;
+  text-align: left;
+  padding-left: 80px;
+}
+
+#site_title {
+  padding-top: 65px;
+  font-weight: bold;
+  font-size: 30px;
+  color: #0066CC;
+}
+
+#subtitle {
+  padding-top: 10px;
+  font-weight: bold;
+  font-size: 13px;
+  color: #0066CC;
+}
+
+#left_column {
+  clear: left;
+  float: left;
+  width: 580px;
+  padding-left: 50px;
+}
+
+#right_column {
+  float: right;
+  width: 100px;
+  padding-right: 15px;
+}
+
+.text_area {
+  padding: 8px;
+}
+
+.title {
+  padding-bottom: 12px;
+  font-size: 18px;
+  font-weight: bold;
+  color: #0066CC;
+}
+
+.spacer {
+  clear: left;
+  height: 18px;
+}
+
+.image { font-size: 70%;
+                  font-family: Verdana, Arial, sans-serif;
+                  text-align: center; }
+
+/* Dropdown Button */
+.dropbtn {
+    background-color: #0066CC;
+    color: white;
+    padding: 8px;
+    font-size: 12px;
+    border: none;
+    cursor: pointer;
+}
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+/* Links inside the dropdown */
+.dropdown-content option {
+    color: black;
+    padding: 8px 8px;
+    text-decoration: none;
+    display: block;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover {background-color: #f1f1f1}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+/* Change the background color of the dropdown button when the dropdown content is shown */
+.dropdown:hover .dropbtn {
+    background-color: #0066EE;
+}
+
+/* Style the tab */
+div.tab {
+    float: left;
+    border: 0px solid #ccc;
+    background-color: #cccccc;
+    width: 20%;
+    height: 440px;
+}
+
+/* Style the buttons inside the tab */
+div.tab button {
+    display: block;
+    background-color: inherit;
+    color: black;
+    padding: 15px 15px;
+    width: 100%;
+    border: none;
+    outline: none;
+    text-align: left;
+    cursor: pointer;
+    transition: 0.1s;
+}
+
+/* Change background color of buttons on hover */
+div.tab button:hover {
+    background-color: #ddd;
+}
+
+/* Create an active/current "tab button" class */
+div.tab button.active {
+    background-color: #f1f1f1;
+}
+
+/* Style the tab content */
+.tabcontent {
+    float: left;
+    padding: 0px 12px;
+    border: 0px;
+    width: 80%;
+    height: 840px;
+}

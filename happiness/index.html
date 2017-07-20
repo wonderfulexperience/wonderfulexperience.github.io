@@ -1,0 +1,362 @@
+
+<!doctype html>
+<html lang="en"><meta charset="utf-8">
+<head>
+    <title>Who are the happy people?</title>
+    <!-- Load D3 from site -->
+    <script type="text/javascript" src="d3.v4.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="myjavafunctions.js" charset="utf-8"></script>
+    <script type="text/javascript" src="jquery-3.2.1.js"></script>
+    <script type="text/javascript" src="jquery.event.move.js"></script>
+
+    <!-- TwentyTwenty Java Library from http://zurb.com/playground/twentytwenty -->
+    <script type="text/javascript" src="jquery.twentytwenty.js"></script>
+  </head>
+
+  <!-- CSS (Styling) -->
+    <style type="text/css">
+            /* Format X and Y Axis */
+            .axis path,
+            .axis line {
+                fill: none;
+                stroke: black;
+                shape-rendering: crispEdges;
+            }
+
+            .axis text {
+                font-family: sans-serif;
+                font-size: 11px;
+            }
+    </style>
+    <!-- End CSS (Styling) -->
+
+<link href="style.css" rel="stylesheet" type="text/css" />
+<link href="twentytwenty.css" rel="stylesheet" type="text/css" />
+  <div id="header">
+        <div id="site_title">Who are the happy people?</div>
+        <div class="spacer"></div>
+          <div id="subtitle">An exploration of what makes people very happy. By Alexander Trentin.
+          </div>
+  </div>
+
+
+
+<div id="left_column">
+
+<div class="text_area">
+Some people are happy. Some people are not. The <a href="http://www.europeansocialsurvey.org/">European Social Survey</a> asks people in Europe regularly, how happy they are – on a scale from 0 to 10. What kind of people are super happy?<p>
+To answer this question let's have a look on people who say that they are very happy. (As very happy are people defined who say their happiness is above 7 out of 10).
+
+<br>
+<br>
+
+<div class="tab">
+  <button class="tablinks" onclick="openTab(event, 'Geo')" id="defaultOpen">Where do the happy people live?</button>
+  <button class="tablinks" onclick="openTab(event, 'Rich')">Are rich people happier?</button>
+  <button class="tablinks" onclick="openTab(event, 'Partner')">Are single people unhappier?</button>
+  <button class="tablinks" onclick="openTab(event, 'Religion')">What's about religion?</button>
+  <button class="tablinks" onclick="openTab(event, 'Immigrants')">Unhappy immigrants?</button>
+  <button class="tablinks" onclick="openTab(event, 'Education')">Does education help?</button>
+  <button class="tablinks" onclick="openTab(event, 'Sport')">Does sport make you happy?</button>
+  <button class="tablinks" onclick="openTab(event, 'Attitude')">It's all about attitude</button>
+</div>
+
+<div id="Geo" class="tabcontent">
+  <div class="title">Where do the happy people live?</div>
+  First some averages: The happiest respondents live in Scandinavia and Switzerland measured by the percentage of very happy people. Denmark consists of almost 79% very happy people, Finland has over 75% and Switzerland has more than 74%. The least happy are the people in Central and Eastern Europe. Less than a Third of Hungarians and Lithuanians said that they were very happy. Czechs and Estonians have a percentage of around 44% of very happy persons.<br><br>
+  Percentage of happy people
+<div id="slider_container">
+  <img src="map1.png">
+  <img src="map2.png">
+</div>
+<div class="image">
+<em>Data: European Social Survey, Chart: Alexander Trentin</em>
+</div>
+<br>
+A closer look at regional distribution shows that in the middle of Europe there is also a gap inside of countries. In Germany some Western regions feel happier than Eastern areas. The same can be said of Poland.
+</div>
+
+<div id="Partner" class="tabcontent">
+<div class="title">Are single people unhappier?</div>
+
+<div class="image">
+<img src="partner.png" alt="Partner chart" width="100%" height="100%" align='middle'>
+<div><em>Data: European Social Survey, Chart: Alexander Trentin</em></div>
+</div>
+</div>
+
+<div id="Religion" class="tabcontent">
+<div class="title">What's about religion?</div>
+<div class="image">
+<img src="religious.png" alt="Religious chart" width="100%" height="100%" align='middle'>
+<div><em>Data: European Social Survey, Chart: Alexander Trentin</em></div>
+</div>
+</div>
+
+<div id="Rich" class="tabcontent">
+<div class="title">Are rich people happier?</div>
+The regional data suggests on a first glance that richer European regions have a higher percentage of happy people. But is that also true on an individual level?<br><br>
+Data by income decile – the income distribution separated in ten equal parts – shows: Yes, absolutely! The richer people are, the higher is the probability that they identify themselves as very happy. The difference between the top and the bottom decile is 30 percentage points!<br><br>
+<div class="image">
+<img src="income.png" alt="Income chart" width="100%" height="100%" align='middle'>
+<div><em>Data: European Social Survey, Chart: Alexander Trentin</em></div>
+</div>
+</div>
+
+<div id="Religion" class="tabcontent">
+  <div class="title">What's about religion?</div>
+  <div class="image">
+<img src="religious.png" alt="Religious chart" width="100%" height="100%" align='middle'>
+<div><em>Data: European Social Survey, Chart: Alexander Trentin</em></div>
+</div>
+</div>
+
+<div id="Immigrants" class="tabcontent">
+  <div class="title">Unhappy immigrants?</div>
+
+People not living in their home country don't seem less happy than the native population.
+<div class="image">
+<img src="immigrant.png" alt="Immigrant chart" width="100%" height="100%" align='middle'>
+<div><em>Data: European Social Survey, Chart: Alexander Trentin</em></div>
+</div>
+However, if you belong to the minority in a country, you seem to be unhappier.
+<div class="image">
+<img src="Minority.png" alt="Minority chart" width="100%" height="100%" align='middle'>
+<div><em>Data: European Social Survey, Chart: Alexander Trentin</em></div>
+</div>
+</div>
+
+<div id="Education" class="tabcontent">
+  <div class="title">Does education help?</div>
+  <div class="image">
+<img src="education.png" alt="Education chart" width="100%" height="100%" align='middle'>
+<div><em>Data: European Social Survey, Chart: Alexander Trentin</em></div>
+</div>
+</div>
+
+<div id="Sport" class="tabcontent">
+  <div class="title">Does sport make you happy?</div>
+  <div class="image">
+<img src="sport.png" alt="Sport chart" width="100%" height="100%" align='middle'>
+<div><em>Data: European Social Survey, Chart: Alexander Trentin</em></div>
+</div>
+</div>
+
+<div id="Attitude" class="tabcontent">
+  <div class="title">It's all about attitude</div>
+  <div class="image">
+  <img src="attitude1.png" alt="Sport chart" width="100%" height="100%" align='middle'>
+<div><em>Data: European Social Survey, Chart: Alexander Trentin</em></div>
+</div>
+<div class="image">
+<img src="attitude2.png" alt="Sport chart" width="100%" height="100%" align='middle'>
+<div><em>Data: European Social Survey, Chart: Alexander Trentin</em></div>
+</div>
+</div>
+
+<div class="spacer"></div>
+<div class="spacer"></div>
+<br>
+<div class="title">Try it out yourself</div>
+This is a data visualization to fit the survey results on your personal situation.
+<br>
+<br>
+> What is your income?<br>
+<div class="dropdown">
+
+  <button class="dropbtn">
+  <output for=value id="income_output">Select an income decile</output>
+  </button>
+  
+  <div class="dropdown-content">
+    <a href="javascript:;" data-value="0" data-text='Lowest 20%' onclick="income_Update($(this).data('value'),$(this).data('text'));">Lowest 20%</a><br>
+    <a href="javascript:;" data-value="1" data-text='Second lowest 20%' onclick="income_Update($(this).data('value'),$(this).data('text'));">Second lowest 20%</a><br>
+    <a href="javascript:;" data-value="2" data-text='Middle 20%' onclick="income_Update($(this).data('value'),$(this).data('text'));">Middle 20%</a><br>
+    <a href="javascript:;" data-value="3" data-text='Second highest 20%' onclick="income_Update($(this).data('value'),$(this).data('text'));">Second highest 20%</a><br>
+    <a href="javascript:;" data-value="4" data-text='Highest 20%' onclick="income_Update($(this).data('value'),$(this).data('text'));">Highest 20%</a>
+  </div>
+
+</div>
+<br>
+> How many friends do you have to discuss personal topics?<br>
+
+<div class="dropdown">
+
+  <button class="dropbtn">
+  <output for=value id="friends_output">Select number of friends</output>
+  </button>
+  
+  <div class="dropdown-content">
+    <a href="javascript:;" data-value="0" data-text='No friends' onclick="friends_Update($(this).data('value'),$(this).data('text'));">No friends</a><br>
+    <a href="javascript:;" data-value="1" data-text='One or two' onclick="friends_Update($(this).data('value'),$(this).data('text'));">One or two</a><br>
+    <a href="javascript:;" data-value="2" data-text='Three' onclick="friends_Update($(this).data('value'),$(this).data('text'));">Three</a><br>
+    <a href="javascript:;" data-value="3" data-text='Four to six' onclick="friends_Update($(this).data('value'),$(this).data('text'));">Four to six</a><br>
+    <a href="javascript:;" data-value="4" data-text='Seven or more' onclick="friends_Update($(this).data('value'),$(this).data('text'));">Seven or more</a>
+  </div>
+
+</div>
+
+<br>
+
+> How healthy are you?<br>
+
+<div class="dropdown">
+  <button class="dropbtn">
+  <output for=value id="health_output">Select level of health</output>
+  </button>
+  
+  <div class="dropdown-content">
+    <a href="javascript:;" data-value="0" data-text='Bad' onclick="health_Update($(this).data('value'),$(this).data('text'));">Bad</a><br>
+    <a href="javascript:;" data-value="1" data-text='Fair' onclick="health_Update($(this).data('value'),$(this).data('text'));">Fair</a><br>
+    <a href="javascript:;" data-value="2" data-text='Good' onclick="health_Update($(this).data('value'),$(this).data('text'));">Good</a><br>
+  </div>
+
+</div>
+
+<br>
+
+> How religious are you?<br>
+
+<div class="dropdown">
+  <button class="dropbtn">
+  <output for=value id="religious_output">Select religiousness</output>
+  </button>
+  
+  <div class="dropdown-content">
+    <a href="javascript:;" data-value="0" data-text='Not religious at all' onclick="religious_Update($(this).data('value'),$(this).data('text'));">Not religious at all</a><br>
+    <a href="javascript:;" data-value="1" data-text='2 out of 5' onclick="religious_Update($(this).data('value'),$(this).data('text'));">2 out of 5</a><br>
+    <a href="javascript:;" data-value="2" data-text='3 out of 5' onclick="religious_Update($(this).data('value'),$(this).data('text'));">3 out of 5</a><br>
+    <a href="javascript:;" data-value="3" data-text='4 out of 5' onclick="religious_Update($(this).data('value'),$(this).data('text'));">4 out of 5</a><br>
+    <a href="javascript:;" data-value="4" data-text='Very religious' onclick="religious_Update($(this).data('value'),$(this).data('text'));">Very religious</a>
+  </div>
+
+</div>
+
+<br>
+
+> How old are you?<br>
+<div class="dropdown">
+  <button class="dropbtn">
+  <output for=value id="age_output">Select your age</output>
+  </button>
+  
+  <div class="dropdown-content">
+    <a href="javascript:;" data-value="2" data-text='15 to 24' onclick="age_Update($(this).data('value'),$(this).data('text'));">15 to 24</a><br>
+    <a href="javascript:;" data-value="3" data-text='25 to 34' onclick="age_Update($(this).data('value'),$(this).data('text'));">25 to 34</a><br>
+    <a href="javascript:;" data-value="4" data-text='35 to 44' onclick="age_Update($(this).data('value'),$(this).data('text'));">35 to 44</a><br>
+    <a href="javascript:;" data-value="5" data-text='45 to 54' onclick="age_Update($(this).data('value'),$(this).data('text'));">45 to 54</a><br>
+    <a href="javascript:;" data-value="6" data-text='55 to 64' onclick="age_Update($(this).data('value'),$(this).data('text'));">55 to 64</a><br>
+    <a href="javascript:;" data-value="7" data-text='65 to 74' onclick="age_Update($(this).data('value'),$(this).data('text'));">65 to 74</a><br>
+    <a href="javascript:;" data-value="8" data-text='75 to 84' onclick="age_Update($(this).data('value'),$(this).data('text'));">75 to 84</a>
+  </div>
+
+</div>
+<br>
+<br>
+<output for=value id="average_output">The survey results suggest that in your situation 50% would say that they are very happy.</output>
+<h4></h4>
+<button class="dropbtn" onclick="resetChart()">
+Reset chart
+</button>
+<br>
+</div>
+
+<script type="text/javascript">
+
+var income_input = "not defined";
+var friends_input = "not defined";
+var health_input = "not defined";
+var religious_input = "not defined";
+var age_input = "not defined";
+
+// opening function from "myjavafunctions.js"
+var csv_filename = 'happy.csv'
+load_initial(csv_filename);
+$("#slider_container").twentytwenty();
+
+function income_Update(num,this_text) {
+                income_input = num;
+                document.querySelector('#income_output').value = this_text;
+                reload_data(csv_filename);
+            }
+
+function friends_Update(num, this_text) {
+                friends_input = num;
+                document.querySelector('#friends_output').value = this_text;
+                reload_data(csv_filename);
+}
+
+function health_Update(num, this_text) {
+                health_input = num;
+                document.querySelector('#health_output').value = this_text;
+                reload_data(csv_filename);
+}
+
+function religious_Update(num, this_text) {
+            religious_input = num;
+            document.querySelector('#religious_output').value = this_text;
+            reload_data(csv_filename);
+}
+
+function age_Update(num, this_text) {
+            age_input = num;
+            document.querySelector('#age_output').value = this_text;
+            reload_data(csv_filename);
+}
+
+
+initialOpenTab("Geo");
+
+function initialOpenTab(tabName) {
+      // Declare all variables
+    var i, tabcontent, tablinks;
+
+    // Get all elements with class="tabcontent" and hide them
+    tabcontent = document.getElementsByClassName("tabcontent");
+    for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+    }
+
+    // Get all elements with class="tablinks" and remove the class "active"
+    tablinks = document.getElementsByClassName("tablinks");
+
+    for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+
+    tablinks[0].className += " active";
+
+    // Show the current tab, and add an "active" class to the link that opened the tab
+    document.getElementById(tabName).style.display = "block";
+    
+}
+
+function openTab(evt, tabName) {
+    // Declare all variables
+    var i, tabcontent, tablinks;
+
+    // Get all elements with class="tabcontent" and hide them
+    tabcontent = document.getElementsByClassName("tabcontent");
+    for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+    }
+
+    // Get all elements with class="tablinks" and remove the class "active"
+    tablinks = document.getElementsByClassName("tablinks");
+
+    for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+
+    // Show the current tab, and add an "active" class to the link that opened the tab
+    document.getElementById(tabName).style.display = "block";
+    evt.currentTarget.className += " active"
+}
+
+</script>
+</div>
+</body>
+
+
+
+</html>
