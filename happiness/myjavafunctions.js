@@ -30,7 +30,7 @@
 
             // Setup settings for graphic
             var canvas_width = 800;
-            var canvas_height = 400;
+            var canvas_height = 350;
             var padding = 40;  // for chart edges
 
             svg = d3.select("h4")  // This is where we put our vis
@@ -62,7 +62,7 @@
 
                 svg.append("path")
                             .attr("d", arc)
-                            .attr("transform", "translate(300,150)")
+                            .attr("transform", "translate(400,175)")
                             .attr("fill", "green");
 
             return;
