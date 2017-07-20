@@ -233,7 +233,7 @@
                                 return (d.happiness*d.count);
                               }) / sum_people;
 
-              document.querySelector('#average_output').value = Math.round(happy_average,1) + " of the total sample of " + sum_people + " respondents said that they are very happy.";
+              document.querySelector('#average_output').value = Math.round(happy_average,1) + "% of the total sample of " + sum_people + " respondents said that they are very happy.";
           ;
 
               makeScatter(happy_dataset,'income_bracket', 'poorer', 'richer');
@@ -343,7 +343,7 @@
 
               if (happy_average > 0) {
                 if (active_bracket == "inactive") {
-                    document.querySelector('#average_output').value = Math.round(happy_average,1) + " of the total sample of " + sum_people + " respondents said that they are very happy.";
+                    document.querySelector('#average_output').value = Math.round(happy_average,1) + "% of the total sample of " + sum_people + " respondents said that they are very happy.";
                 }
                 else {
                 document.querySelector('#average_output').value = "The survey results suggest that in your situation " + Math.round(happy_average,1)
