@@ -15,7 +15,7 @@
                     religious_input = "not defined";
                     age_input = "not defined";
                     reload_data(csv_filename);
-                    document.querySelector('#income_output').value = "Select an income decile";
+                    document.querySelector('#income_output').value = "Select an income bracket";
                     document.querySelector('#friends_output').value = "Select number of friends";
                     document.querySelector('#health_output').value = "Select level of health";
                     document.querySelector('#religious_output').value = "Select religiousness";
@@ -233,8 +233,8 @@
                                 return (d.happiness*d.count);
                               }) / sum_people;
 
-              document.querySelector('#average_output').value = "The survey results suggest that in your situation " + Math.round(happy_average,1)
-                + "% would say that they are very happy. This is based on a sample of " + sum_people + " respondents.";
+              document.querySelector('#average_output').value = Math.round(happy_average,1) + " of the total sample of " + sum_people + " respondents said that they are very happy.";
+          ;
 
               makeScatter(happy_dataset,'income_bracket', 'poorer', 'richer');
             
@@ -342,8 +342,13 @@
                               }) / sum_people;
 
               if (happy_average > 0) {
+                if (active_bracket == "inactive") {
+                    document.querySelector('#average_output').value = Math.round(happy_average,1) + " of the total sample of " + sum_people + " respondents said that they are very happy.";
+                }
+                else {
                 document.querySelector('#average_output').value = "The survey results suggest that in your situation " + Math.round(happy_average,1)
                 + "% would say that they are very happy. This is based on a sample of " + sum_people + " respondents.";
+                }
                 makeScatter(happy_dataset, active_bracket, lower_value, higher_value);
                 } 
                 else {
