@@ -342,13 +342,8 @@
                               }) / sum_people;
 
               if (happy_average > 0) {
-                if (active_bracket == "inactive") {
-                    document.querySelector('#average_output').value = Math.round(happy_average,1) + "% of the total sample of " + sum_people + " respondents said that they are very happy.";
-                }
-                else {
                 document.querySelector('#average_output').value = "The survey results suggest that in your situation " + Math.round(happy_average,1)
                 + "% would say that they are very happy. This is based on a sample of " + sum_people + " respondents.";
-                }
                 makeScatter(happy_dataset, active_bracket, lower_value, higher_value);
                 } 
                 else {
