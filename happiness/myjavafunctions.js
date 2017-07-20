@@ -29,8 +29,8 @@
 
 
             // Setup settings for graphic
-            var canvas_width = 600;
-            var canvas_height = 300;
+            var canvas_width = 800;
+            var canvas_height = 400;
             var padding = 40;  // for chart edges
 
             svg = d3.select("h4")  // This is where we put our vis
