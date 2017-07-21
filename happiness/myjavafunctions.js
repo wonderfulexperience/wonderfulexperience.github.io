@@ -20,7 +20,6 @@
                     document.querySelector('#health_output').value = "Select level of health";
                     document.querySelector('#religious_output').value = "Select religiousness";
                     document.querySelector('#age_output').value = "Select your age";
-
             }
 
 
@@ -88,7 +87,9 @@
 
             tickLabels = [lower_value,higher_value]
             var xAxis = d3.axisBottom(xScale)
-                          .tickValues([0,d3.max(this_dataset, function(d) {
+                          .tickValues([d3.min(this_dataset, function(d) {
+                                return d[criteria_variable];
+                              }),d3.max(this_dataset, function(d) {
                                 return d[criteria_variable];
                               })])
                           .tickFormat(function(d,i){ return tickLabels[i] });
