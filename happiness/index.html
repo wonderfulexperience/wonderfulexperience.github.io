@@ -58,6 +58,7 @@ To answer this question let's have a look on people who say that they are very h
   <button class="tablinks" onclick="openTab(event, 'Immigrants')">Unhappy immigrants?</button>
   <button class="tablinks" onclick="openTab(event, 'Education')">Does education help?</button>
   <button class="tablinks" onclick="openTab(event, 'Sport')">Does sport make you happy?</button>
+    <button class="tablinks" onclick="openTab(event, 'Age')">Does sport make you happy?</button>
   <button class="tablinks" onclick="openTab(event, 'Attitude')">It's all about attitude</button>
 </div>
 
@@ -66,8 +67,8 @@ To answer this question let's have a look on people who say that they are very h
   First some averages: The happiest respondents live in Scandinavia and Switzerland measured by the percentage of very happy people. Denmark consists of almost 79% very happy people, Finland has over 75% and Switzerland has more than 74%. The least happy are the people in Central and Eastern Europe. Less than a Third of Hungarians and Lithuanians said that they were very happy. Czechs and Estonians have a percentage of around 44% of very happy persons.<br><br>
   Percentage of happy people
 <div id="slider_container">
-  <img src="map1.png">
-  <img src="map2.png">
+  <img src="map1.png" width = "500">
+  <img src="map2.png" width = "500">
 </div>
 <div class="image">
 <em>Data: European Social Survey, Chart: Alexander Trentin</em>
@@ -78,7 +79,7 @@ A closer look at regional distribution shows that in the middle of Europe there 
 
 <div id="Partner" class="tabcontent">
 <div class="title">Are single people unhappier?</div>
-
+There is a notable difference between people in a relationship and those how are not. People who say that they live with a partner have a more than 10 percentage points higher probability to identify themselves as "very happy".<br><br>
 <div class="image">
 <img src="partner.png" alt="Partner chart" width="100%" height="100%" align='middle'>
 <div><em>Data: European Social Survey, Chart: Alexander Trentin</em></div>
@@ -87,8 +88,19 @@ A closer look at regional distribution shows that in the middle of Europe there 
 
 <div id="Religion" class="tabcontent">
 <div class="title">What's about religion?</div>
+The more religious people are, the happier they are. At least when people are somehow committed to your religion, people are more likely to say that they are very happy. The happiest people have on average a level of religiousness of 9 out of 10. However, if you are not really committed, it helps to be less religious. The lowest happiness levels have people on a scale of 4 out of 10. It increases the probability to be "very happy" when you increase your religiousness level from 4 to 9.
+<br><br>
 <div class="image">
 <img src="religious.png" alt="Religious chart" width="100%" height="100%" align='middle'>
+<div><em>Data: European Social Survey, Chart: Alexander Trentin</em></div>
+</div>
+</div>
+
+<div id="Age" class="tabcontent">
+<div class="title">Are rich people happier?</div>
+The older people are, the more likely <br><br>
+<div class="image">
+<img src="age.png" alt="Age chart" width="100%" height="100%" align='middle'>
 <div><em>Data: European Social Survey, Chart: Alexander Trentin</em></div>
 </div>
 </div>
@@ -103,23 +115,15 @@ Data by income decile â€“ the income distribution separated in ten equal parts â
 </div>
 </div>
 
-<div id="Religion" class="tabcontent">
-  <div class="title">What's about religion?</div>
-  <div class="image">
-<img src="religious.png" alt="Religious chart" width="100%" height="100%" align='middle'>
-<div><em>Data: European Social Survey, Chart: Alexander Trentin</em></div>
-</div>
-</div>
-
 <div id="Immigrants" class="tabcontent">
-  <div class="title">Unhappy immigrants?</div>
+<div class="title">Unhappy immigrants?</div>
 
 People not living in their home country don't seem less happy than the native population.
 <div class="image">
 <img src="immigrant.png" alt="Immigrant chart" width="100%" height="100%" align='middle'>
 <div><em>Data: European Social Survey, Chart: Alexander Trentin</em></div>
 </div>
-However, if you belong to the minority in a country, the survey results suggest that you are actually unhappier than the majority in your country.
+However, if you belong to the minority in a country, the survey results suggest that you are actually unhappier than the majority in your country.<br><br>
 <div class="image">
 <img src="minority.png" alt="Minority chart" width="100%" height="100%" align='middle'>
 <div><em>Data: European Social Survey, Chart: Alexander Trentin</em></div>
@@ -128,6 +132,7 @@ However, if you belong to the minority in a country, the survey results suggest 
 
 <div id="Education" class="tabcontent">
   <div class="title">Does education help?</div>
+The higher educated you are, the higher is the probability that you say you are very happy. People with a four year school education say only with a 40% probability that they are very happy. While people with almost 20 years of schooling say they are very happy with a probability of almost 70%.<br><br>
   <div class="image">
 <img src="education.png" alt="Education chart" width="100%" height="100%" align='middle'>
 <div><em>Data: European Social Survey, Chart: Alexander Trentin</em></div>
@@ -135,8 +140,9 @@ However, if you belong to the minority in a country, the survey results suggest 
 </div>
 
 <div id="Sport" class="tabcontent">
-  <div class="title">Does sport make you happy?</div>
-  <div class="image">
+<div class="title">Does sport make you happy?</div>
+If you don't do sports at all, it might make you happier if you do a bit of sports. The peak of the proportion of very happy people was if people engaged in sports four days in a week. The effect on the proportion of very happy people was negative, if people did more than four days of sport.
+<div class="image">
 <img src="sport.png" alt="Sport chart" width="100%" height="100%" align='middle'>
 <div><em>Data: European Social Survey, Chart: Alexander Trentin</em></div>
 </div>
@@ -144,9 +150,13 @@ However, if you belong to the minority in a country, the survey results suggest 
 
 <div id="Attitude" class="tabcontent">
   <div class="title">It's all about attitude</div>
+  Not only the outside circumstances define, if people are happy. Also the attittude is an important part. When people said t"to have a good time" is important in their life, they had a higher probability to be very happy. People who said that having a good time is not important at all in their live, declared only with a proportion of less than 45% that they are very happy. People who said that it was very important to have a good time were with a probability of more than 65% very happy.
+  <br><br>
   <div class="image">
   <img src="attitude1.png" alt="Sport chart" width="100%" height="100%" align='middle'>
-<div><em>Data: European Social Survey, Chart: Alexander Trentin</em></div>
+<div><em>Data: European Social Survey, Chart: Alexander Trentin</em></div>  <br><br>
+On the other hand doesn't it make people happier when they crave for riches. The more important it was for people to be rich, the less was the probability that they are happier. The lowest proportion of very happy people can be found in the group of people who said that "it is like me" when they were confronted with statements where people said that to be rich and affording expensive things is important.
+<br><br>
 </div>
 <div class="image">
 <img src="attitude2.png" alt="Sport chart" width="100%" height="100%" align='middle'>
@@ -158,7 +168,7 @@ However, if you belong to the minority in a country, the survey results suggest 
 <div class="spacer"></div>
 <br>
 <div class="title">Try it out yourself</div>
-This is a data visualization to fit the survey results on your personal situation.
+Here is an interactive data visualization to fit the survey results on your personal situation.
 <br>
 <br>
 > What is your income?<br>

@@ -38,8 +38,8 @@ a:active, a:hover { color: #008800; text-decoration: underline}
 #left_column {
   clear: left;
   float: left;
-  width: 580px;
-  padding-left: 50px;
+  width: 700px;
+  padding-left: 100px;
 }
 
 #right_column {

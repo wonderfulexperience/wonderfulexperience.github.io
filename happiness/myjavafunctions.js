@@ -42,7 +42,6 @@
             if (criteria_variable == 'inactive') {
                 var this_average = d3.sum(this_dataset, function(d) {
                                 return d.happiness; })
-                console.log(this_average)
 
                 svg.selectAll("circles")
                     .data(this_dataset)
