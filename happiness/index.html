@@ -13,32 +13,15 @@
     <script type="text/javascript" src="jquery.twentytwenty.js"></script>
   </head>
 
-  <!-- CSS (Styling) -->
-    <style type="text/css">
-            /* Format X and Y Axis */
-            .axis path,
-            .axis line {
-                fill: none;
-                stroke: black;
-                shape-rendering: crispEdges;
-            }
-
-            .axis text {
-                font-family: sans-serif;
-                font-size: 11px;
-            }
-    </style>
-    <!-- End CSS (Styling) -->
-
 <link href="style.css" rel="stylesheet" type="text/css" />
 <link href="twentytwenty.css" rel="stylesheet" type="text/css" />
+
   <div id="header">
         <div id="site_title">Who are the happy people?</div>
         <div class="spacer"></div>
           <div id="subtitle">An exploration of what makes people very happy. By Alexander Trentin.
           </div>
   </div>
-
 
 
 <div id="left_column">
@@ -58,7 +41,7 @@ To answer this question let's have a look on people who say that they are very h
   <button class="tablinks" onclick="openTab(event, 'Immigrants')">Unhappy immigrants?</button>
   <button class="tablinks" onclick="openTab(event, 'Education')">Does education help?</button>
   <button class="tablinks" onclick="openTab(event, 'Sport')">Does sport make you happy?</button>
-    <button class="tablinks" onclick="openTab(event, 'Age')">Does sport make you happy?</button>
+    <button class="tablinks" onclick="openTab(event, 'Age')">Are happy people younger?</button>
   <button class="tablinks" onclick="openTab(event, 'Attitude')">It's all about attitude</button>
 </div>
 
@@ -97,8 +80,8 @@ The more religious people are, the happier they are. At least when people are so
 </div>
 
 <div id="Age" class="tabcontent">
-<div class="title">Are rich people happier?</div>
-The older people are, the more likely <br><br>
+<div class="title">Are happy people younger?</div>
+The older people are, the less likely it is that they identify themselves as very happy. However, at an older age, the effect is not clear. There are some ages above the age 70 where less than 50% identify themselves as very happy. While of people in the mid-20s, more than 60% say that they are very happy. <br><br>
 <div class="image">
 <img src="age.png" alt="Age chart" width="100%" height="100%" align='middle'>
 <div><em>Data: European Social Survey, Chart: Alexander Trentin</em></div>
@@ -117,8 +100,7 @@ Data by income decile â€“ the income distribution separated in ten equal parts â
 
 <div id="Immigrants" class="tabcontent">
 <div class="title">Unhappy immigrants?</div>
-
-People not living in their home country don't seem less happy than the native population.
+People not living in their home country don't seem less happy than the native population. They percentage of "very happy people" does not change if you are born in the country you live or you move there later.
 <div class="image">
 <img src="immigrant.png" alt="Immigrant chart" width="100%" height="100%" align='middle'>
 <div><em>Data: European Social Survey, Chart: Alexander Trentin</em></div>
