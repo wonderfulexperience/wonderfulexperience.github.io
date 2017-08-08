@@ -8,39 +8,58 @@
 
 <style>
   body {background-color: white;padding-top: 20px;
-    padding-right: 30px;
     padding-bottom: 20px;
-    padding-left: 80px;}
-  h1,h2,h3,h4,h5,h6{font-family:"Segoe UI",Arial,sans-serif;font-weight:400;margin:10px 0;color:black;}
-  p {font-family:"Segoe UI",Arial,sans-serif;color: black;
+    padding-left: 100px;
+  width: 700px;
+font-size:115%;}
+  h1,h2,h3,h4,h5,h6{font-family:"Segoe UI",Arial,sans-serif;font-weight:400;0;color:black;}
+  h1{font-size: 150%;padding-top:20px }
+  h3{font-size: 115%;padding-top:20px }
+  h4{font-size: 100%;}
+  p {font-family:Garamond,sans-serif;color: black;}
+  td
+{
+    padding:5px 10px 5px 10px;
+}
+
 </style>
 
 </head>
 
 <body>
   <h1>Never lend money to these people!</h1>
-  <h4>by Alexander Trentin</h4><br>
-It makes sense to look for the demographic group if someone asks you for money. Data from peer-to-peer lender LendingClub shows that the differences in probability of default or late payment can be substantial.<br><br>
-<h4>Never lend to people from the South</h4>
-Loans of people in South Carolina have a double as high probability of getting into problems than loans of people in New England.<br><br>
-<img src="states.png" width=45%><br><br>
-<h4>Never lend to people with low employment length</h4>
-The lower people are employed in their current job, the higher the probability that their loans will run into problems.<br><br>
-<img src="emp_length_short.png" width=45%><br><br>
-<h4>Never lend to people with short credit history</h4>
-People who got their first credit limit approved more recently have a higher probability not to pay back their loans.<br><br>
-<img src="years_credit.png" width=45%><br><br>
-<h4>Never lend to people who want to consolidate debt</h4>
-Surprisingly, people who want to consolidate debt are more likely to default on their loans. The lowest risk are borrowers who want to pay back credit card debt.<br><br>
-<img src="purpose.png" width=45%><br><br>
-<h4>Never lend to people to poor people</h4>
-The higher the income, the lower is the probability that a loan will not be paid back.<br><br>
-<img src="quartile.png" width=45%><br><br>
-<h4>Group people by demographic criteria</h4>
-The differences are much higher, if all the demographic criteria are grouped to classify people according to their probability if they pack their loans.<br><br>
-<img src="grouped.png" width=45%><br><br>
+  <h4>by Alexander Trentin</h4><p>
+It makes sense to look for the demographic group if someone asks you for money. Data from peer-to-peer lender LendingClub shows that the differences in probability of default or late payment can be substantial.</p>
+<h3>Don't lend to people from these States</h3><p>
+Loans taken out by people living in South Dakota show a probability of getting into problems which is twice as high as loans taken out by people living in New England.</p>
+<h4>Problem rate by state</h4>
+<img src="states.png" width=100%>
+<h3>Don't lend to people with short employment length</h3>
+<p>The shorter people are employed in their current job, the higher the probability that their loans will run into problems.</p>
+<h4>Problem rate by employment history</h4>
+<img src="emp_length_short.png" width=80%>
+<h3>Don't lend to people with short credit history</h3><p>
+People who got their first credit limit approved more recently have a higher probability not to pay back their loans.</p>
+<h4>Problem rate by years of credit history</h4>
+<img src="years_credit.png" width=80%>
+<h3>Don't lend to people who want to consolidate debt</h3><p>
+Surprisingly, people who want to consolidate debt are more likely to default on their loans. The lowest risk is exhibited by borrowers who want to pay back credit card debt.</p>
+<h4>Problem rate by loan purpose</h4>
+<img src="purpose.png" width=80%<p>
+<h3>Don't lend to poor people</h3><p>
+The higher the income, the lower is the probability that a loan will not be paid back.</p>
+<h4>Problem rate by income quartile</h4>
+<img src="quartile.png" width=80%>
+<h3>Grouping people by demographic criteria</h3>
+<p>The differences in the probability of problematic loans are much higher, if people are grouped by demographic criteria. Over a thousand different groups are estimated, using Zip codes, income quartile, loan purpose, length of credit history and length of employment. Only groups with more than 100 people is taken into account.</p>
+<p>The group with the highest risk will have problems paying back a loan with a probability of more than 20%. While the group with the lowest risk runs into problems with a probability less than 1%.</p>
+<h4>Problem rate by demographic group</h4>
+<img src="grouped.png" width=70%><p><p>
 <h4>The typical...</h4>
-<table style="width:80%">
+<table>
+<col width="300">
+<col width="300">
+<col width="300">
   <tr>
     <th><h4>lowest risk borrower</h4></th>
     <th><h4>median risk borrower</h4></th> 
@@ -58,8 +77,8 @@ The differences are much higher, if all the demographic criteria are grouped to 
   </tr>
   <tr>
     <td>...is in the highest income quartile</td>
-    <td>...is in the lowest quartile</td> 
-    <td>...is in the lowest quartile</td>
+    <td>...is in the lowest income quartile</td> 
+    <td>...is in the lowest income quartile</td>
   </tr>
     <tr>
     <td>...wants to pay back credit card debt</td>
@@ -67,11 +86,12 @@ The differences are much higher, if all the demographic criteria are grouped to 
     <td>...wants to do debt consolidation</td>
   </tr>
       <tr>
-    <td>...works for less than a year for his employer</td>
-    <td>...works for more than 10 years for his employer</td> 
-    <td>...works for 5 to 10 years for his employer</td>
+    <td>...has worked for less than a year for her/his employer</td>
+    <td>...has worked for more than 10 years for her/his employer</td> 
+    <td>...has worked for 5 to 10 years for her/his employer</td>
   </tr>
 
 </table>
+
 </body>
 </html>
