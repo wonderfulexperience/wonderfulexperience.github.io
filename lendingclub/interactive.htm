@@ -1,0 +1,268 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>Would you give a loan to yourself?</title>
+    <script type="text/javascript" src="d3.v4.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="myjavafunctions.js" charset="utf-8"></script>
+    <script type="text/javascript" src="jquery-3.2.1.js"></script>
+    <script type="text/javascript" src="jquery.event.move.js"></script>
+
+<style>
+  body {background-color: white;padding-top: 0px;
+    padding-bottom: 0px;
+    padding-left: 100px;
+  width: 700px;
+font-size:115%;}
+  h1,h2,h3,h4,h5,h6{font-family:"Segoe UI",Arial,sans-serif;font-weight:200;0;color:black;}
+  h1{font-size: 150%;padding-top:20px }
+  h3{font-size: 115%;padding-top:20px }
+  h4{font-size: 100%;}
+  p {font-family:Garamond,sans-serif;color: black;}
+  td
+{
+    font-family:Garamond,sans-serif;color: black;
+    padding:0px 0px 0px 0px;
+    vertical-align: top;
+    text-align: left;
+
+}
+th
+{
+    padding:0px 15px 0px 0px;
+    text-align: left;
+}
+
+  a:link {
+    color:blue;
+    text-decoration:none;
+  }
+
+  a:hover {
+    color: hotpink;
+    background-color: grey;
+}
+
+/* Dropdown Button */
+.dropbtn {
+    background-color: #8B0000;
+    color: white;
+    padding: 8px;
+    font-size: 14px;
+    border: none;
+    cursor: pointer;
+    font-family:Arial;
+    border-radius: 18px;
+    width: 100px;
+}
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9FF;
+    min-width: 80px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    font-size: 14px;
+    font-family:Arial;
+    text-align: center;
+    line-height:20px;
+}
+
+/* Links inside the dropdown */
+.dropdown-content option {
+    color: black;
+    text-decoration: none;
+    display: block;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover {background-color: #B1B1B1}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+/* Change the background color of the dropdown button when the dropdown content is shown */
+.dropdown:hover .dropbtn {
+    background-color: #8B3333;
+}
+
+</style>
+
+</head>
+
+<body>
+  <h1>Would you give a loan to yourself?</h1>
+  <h4>by Alexander Trentin</h4>
+
+ <p><a href="index.htm">Here is an article</a> on how demographic groups differ in their probability to get problems paying back loans.</p>
+
+  <table>
+<col width="150">
+<col width="150">
+<col width="150">
+<col width="150">
+<col width="150">
+  <tr>
+    <th><h4>How does your Zip code start?</h4></th>
+    <th><h4>How long are you employed?</h4></th> 
+    <th><h4>What's your income?</h4></th>
+    <th><h4>How long is your credit history?</h4></th>
+    <th><h4>Why do you need the loan?</h4></th>
+  </tr>
+  <tr>
+    <td>
+
+    <div class="dropdown">
+  <button class="dropbtn">
+  <output for=value id="zip">First digit of Zip code</output>
+  </button>
+  
+  <div class="dropdown-content">
+    <a href="javascript:;" data-value="0" data-text='0' onclick="zip_Update($(this).data('value'),$(this).data('text'));">0</a><br>
+    <a href="javascript:;" data-value="1" data-text='1' onclick="zip_Update($(this).data('value'),$(this).data('text'));">1</a><br>
+    <a href="javascript:;" data-value="2" data-text='2' onclick="zip_Update($(this).data('value'),$(this).data('text'));">2</a><br>
+    <a href="javascript:;" data-value="3" data-text='3' onclick="zip_Update($(this).data('value'),$(this).data('text'));">3</a><br>
+    <a href="javascript:;" data-value="4" data-text='4' onclick="zip_Update($(this).data('value'),$(this).data('text'));">4</a><br>
+    <a href="javascript:;" data-value="5" data-text='5' onclick="zip_Update($(this).data('value'),$(this).data('text'));">5</a><br>
+    <a href="javascript:;" data-value="6" data-text='6' onclick="zip_Update($(this).data('value'),$(this).data('text'));">6</a><br>
+   <a href="javascript:;" data-value="7" data-text='7' onclick="zip_Update($(this).data('value'),$(this).data('text'));">7</a><br>
+    <a href="javascript:;" data-value="8" data-text='8' onclick="zip_Update($(this).data('value'),$(this).data('text'));">8</a><br>
+     <a href="javascript:;" data-value="9" data-text='9' onclick="zip_Update($(this).data('value'),$(this).data('text'));">9</a>
+  </div>
+
+</div>
+</td>
+    <td>    <div class="dropdown">
+  <button class="dropbtn">
+  <output for=value id="employment">Employment length</output>
+  </button>
+  
+  <div class="dropdown-content">
+    <a href="javascript:;" data-value="0" data-text='1 year and below' onclick="employment_Update($(this).data('value'),$(this).data('text'));">1 year and below</a><br>
+    <a href="javascript:;" data-value="1" data-text='1 to 5 years' onclick="employment_Update($(this).data('value'),$(this).data('text'));">1 to 5 years</a><br>
+    <a href="javascript:;" data-value="5" data-text='5 to 10 years' onclick="employment_Update($(this).data('value'),$(this).data('text'));">5 to 10 years</a><br>
+    <a href="javascript:;" data-value="9" data-text='more than 10 years' onclick="employment_Update($(this).data('value'),$(this).data('text'));">more than 10 years</a>
+  </div>
+
+</div>
+</td> 
+    <td>     <div class="dropdown">
+  <button class="dropbtn">
+  <output for=value id="income">Income quartile</output>
+  </button>
+  
+  <div class="dropdown-content">
+    <a href="javascript:;" data-value="0.0" data-text='Below $46,000' onclick="income_Update($(this).data('value'),$(this).data('text'));">Below $46,000</a><br>
+    <a href="javascript:;" data-value="46000.0" data-text='$46,000 to $65,000' onclick="income_Update($(this).data('value'),$(this).data('text'));">$46,000 to $65,000</a><br>
+    <a href="javascript:;" data-value="65000.0" data-text='$65,000 to $91,690' onclick="income_Update($(this).data('value'),$(this).data('text'));">$65,000 to $91,690</a><br>
+    <a href="javascript:;" data-value="91690.5" data-text='Above $91,690' onclick="income_Update($(this).data('value'),$(this).data('text'));">Above $91,690</a>
+  </div>
+
+</div></td>
+    <td>   
+    <div class="dropdown">
+  <button class="dropbtn">
+  <output for=value id="credit">Credit history in years</output>
+  </button>
+  
+  <div class="dropdown-content">
+    <a href="javascript:;" data-value="0" data-text='Below 10 years' onclick="credit_Update($(this).data('value'),$(this).data('text'));">Below 10 years</a><br>
+    <a href="javascript:;" data-value="10" data-text='10 to 15 years' onclick="credit_Update($(this).data('value'),$(this).data('text'));">10 to 15 years</a><br>
+    <a href="javascript:;" data-value="15" data-text='15 to 20 years' onclick="credit_Update($(this).data('value'),$(this).data('text'));">15 to 20 years</a><br>
+    <a href="javascript:;" data-value="20" data-text='Above 20 years' onclick="credit_Update($(this).data('value'),$(this).data('text'));">Above 20 years</a>
+  </div>
+
+</div>   
+ </td>
+    <td>    <div class="dropdown">
+  <button class="dropbtn">
+  <output for=value id="purpose">Loan purpose</output>
+  </button>
+  
+  <div class="dropdown-content">
+    <a href="javascript:;" data-value="other" data-text='Other' onclick="purpose_Update($(this).data('value'),$(this).data('text'));">Other</a><br>
+    <a href="javascript:;" data-value="debt_consolidation" data-text='Debt consolidation' onclick="purpose_Update($(this).data('value'),$(this).data('text'));">Debt consolidation</a><br>
+    <a href="javascript:;" data-value="home_improvement" data-text='Home improvement' onclick="purpose_Update($(this).data('value'),$(this).data('text'));">Home improvement</a><br>
+    <a href="javascript:;" data-value="credit_card" data-text='Credit card' onclick="purpose_Update($(this).data('value'),$(this).data('text'));">Credit card</a><br>
+  </div>
+
+</div> </td>
+  </tr>
+  </table>
+<p><output for=value id="total_people_output">In the dataset, there are 1000 people like you.</output><br>
+<output for=value id="problem_rate_output">Of them 50% or 500 people had problems paying back their loans.</output>
+</p>
+<h2></h2>
+<div>
+<button  class="dropbtn" onclick="resetChart()">
+Reset criteria
+</button>
+</div>
+
+
+<script type="text/javascript">
+
+
+
+//set up variables
+var zip_input = "not defined";
+var employment_input = "not defined";
+var income_input = "not defined";
+var credit_input = "not defined";
+var purpose_input = "not defined";
+
+var average_rate = 0;
+
+//define the data file and load it for the first time
+var csv_filename = 'data.csv'
+load_initial(csv_filename);
+
+//field_updates
+
+function zip_Update(num, this_text) {
+                zip_input = num;
+                document.querySelector('#zip').value = this_text;
+                reload_data(csv_filename);
+            }
+
+function employment_Update(num, this_text) {
+                employment_input = num;
+                document.querySelector('#employment').value = this_text;
+                reload_data(csv_filename);
+}
+
+function income_Update(num, this_text) {
+                income_input = num;
+                document.querySelector('#income').value = this_text;
+                reload_data(csv_filename);
+}
+
+function credit_Update(num, this_text) {
+            credit_input = num;
+            document.querySelector('#credit').value = this_text;
+            reload_data(csv_filename);
+}
+
+function purpose_Update(num, this_text) {
+            purpose_input = num;
+            document.querySelector('#purpose').value = this_text;
+            reload_data(csv_filename);
+}
+
+
+</script>
+
+</body>
+</html>
