@@ -22,7 +22,16 @@ function update_color(district_data) {
 
     function coloring(d) {
     var new_data = district_data.filter(function(thisData) {
-      return ((thisData.District == d.properties.district)  && (thisData.Category == sector_input));
+
+      if(level_input == 'National level') {
+
+        return ((thisData.District == "National Summary")  && (thisData.Category == sector_input));
+      } 
+      else
+
+      {
+        return ((thisData.District == d.properties.district)  && (thisData.Category == sector_input));
+      }
     })
 
     if(new_data.length>0) {
@@ -39,6 +48,7 @@ function update_color(district_data) {
 };
 
 function add_information(district_data) {
+
     var svg = d3.selectAll("svg");
 
     var linkText = svg.selectAll("linkText");
@@ -47,7 +57,14 @@ function add_information(district_data) {
 
     this_path.on("mouseover", function(d) {
       var new_data = district_data.filter(function(thisData) {
-          return ((thisData.District == d.properties.district)  && (thisData.Category == sector_input));
+          if(level_input == 'National level') {
+        return ((thisData.District == "National Summary")  && (thisData.Category == sector_input));
+      } 
+      else
+
+      {
+        return ((thisData.District == d.properties.district)  && (thisData.Category == sector_input));
+      }
       })
       if(new_data.length>0) {
       $( "#sentence" ).val("Important sentence: " + new_data[0].important_phrase);
@@ -66,6 +83,51 @@ function add_information(district_data) {
             .style("cursor", "default");
 
             });
+
+}
+
+
+
+function update_naming(district_data) {
+
+    var svg = d3.selectAll("svg");
+
+    if(level_input == 'National level') {
+      svg.selectAll('text').remove();
+      this_path.attr("stroke-width","0").attr("stroke","transparent");
+    }
+    else {
+      svg.selectAll('path')
+      .attr("stroke","black")
+      .style("fill","grey")
+      .attr("stroke-width","0.2")
+      .each( function(d, i){naming(d)});
+
+    function naming(d) {
+
+    var projection = d3.geoAlbers();
+
+    this_centroid = d3.geoPath().projection(projection).centroid(d);
+
+    //check for San Francisco
+    if(this_centroid[1]>0) {
+    svg.append('text')
+      .attr("x",this_centroid[0]-20)
+      .attr("y",this_centroid[1])
+      .text(d.properties.district)
+      .attr("fill","darkgreen")
+      .attr("font-size","13px");
+
+    } else {
+      svg.append('text')
+      .attr("x",this_centroid[0]+10)
+      .attr("y",this_centroid[1]+250)
+      .text(d.properties.district)
+      .attr("fill","darkgreen")
+      .attr("font-size","13px");
+    }
+    }
+  }
 
 }
 
@@ -91,14 +153,13 @@ d3.json(map_file, function(error, mapData) {
       .attr("d", path.projection(projection))
       .attr("opacity","1")
       .attr("stroke","black")
-      .attr("stroke-width","0.2")
       .style("fill","grey")
+      .attr("stroke-width","0.2")
       .each( function(d, i){naming(d)});
 
     function naming(d) {
 
     this_centroid = d3.geoPath().projection(projection).centroid(d);
-
 
     //check for San Francisco
     if(this_centroid[1]>0) {
@@ -117,7 +178,8 @@ d3.json(map_file, function(error, mapData) {
       .attr("fill","darkgreen")
       .attr("font-size","13px");
     }
-    }
+
+  }
 
   })
 }

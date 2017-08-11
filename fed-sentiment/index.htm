@@ -108,9 +108,8 @@ th
 
 /* The container <div> - needed to position the dropdown content */
 .dropdown {
-    position: absolute; top: 320px; left: 400px;
+    position: absolute;
     display: inline-block;
-    text-decoration: none;
 }
 
 /* Dropdown Content (Hidden by Default) */
@@ -118,7 +117,7 @@ th
     display: none;
     position: absolute;
     background-color: #f9f9FF;
-    min-width: 80px;
+    width: 200px;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
     z-index: 1;
     font-size: 14px;
@@ -135,10 +134,8 @@ th
 }
 
 
-
-
 /* Change color of dropdown links on hover */
-.dropdown-content a:hover {background-color: #B1B1B1}
+.dropdown-content a:hover {background-color: #B1B1B1;}
 
 /* Show the dropdown menu on hover */
 .dropdown:hover .dropdown-content {
@@ -148,6 +145,18 @@ th
 /* Change the background color of the dropdown button when the dropdown content is shown */
 .dropdown:hover .dropbtn {
     background-color: #B1B1B1;
+}
+
+#dropdown_1 {
+  position: absolute;
+  left: 620px;
+  top: 320px;
+}
+
+#dropdown_2 {
+  position: absolute;
+  left: 350px;
+  top: 320px;
 }
 
 </style>
@@ -161,8 +170,8 @@ th
  <p>The Federal Reserve System, the US central bank, publishes eight times a year a "Beige Book". This is a collection of anecdotal observations of the economy. Anybody who wanted to have access to it, needed to read it. Until now.</p>
 
 <p>
-  <input type="text" id="district" size="400" style="border:0; color:black; font-family:Garamond; font-size:18px; "><br>
-   <input type="text" id="sentence" size="400" style="border:0; color:black; font-family:Garamond; font-size:18px; ">
+  <input type="text" id="district" readonly size="400" style="border:0; color:black; font-family:Garamond; font-size:18px; "><br>
+   <input type="text" id="sentence" readonly size="400" style="border:0; color:black; font-family:Garamond; font-size:18px; ">
 </p>
 
 <p>
@@ -175,7 +184,7 @@ th
 
 <div id="slider-vertical";></div>
 
-<div class="dropdown">
+<div class="dropdown" id="dropdown_2">
   <button class="dropbtn">
   <output for=value id="sector">Select a sector</output>
   </button>
@@ -188,15 +197,25 @@ th
     <a href="javascript:;" data-value="Manufacturing, Services" data-text='Manufacturing, Services' onclick="sector_Update($(this).data('value'),$(this).data('text'));">Manufacturing, Services</a><br>
          <a href="javascript:;" data-value="Real Estate, Construction" data-text='Real Estate, Construction' onclick="sector_Update($(this).data('value'),$(this).data('text'));">Real Estate, Construction</a>
     <a href="javascript:;" data-value="Retail, Consumer Spending" data-text='Retail, Consumer Spending' onclick="sector_Update($(this).data('value'),$(this).data('text'));">Retail, Consumer Spending</a><br>
-
-
   </div>
+  </div> 
+
+  <div class="dropdown" id="dropdown_1";>
+  <button class="dropbtn">
+  <output for=value id="level">Look at district or national level</output>
+  </button>
+  
+  <div class="dropdown-content">
+    <a href="javascript:;" data-value="District level" data-text='District level' onclick="level_Update($(this).data('value'),$(this).data('text'));">District level</a><br>
+    <a href="javascript:;" data-value="National level" data-text='National level' onclick="level_Update($(this).data('value'),$(this).data('text'));">National level</a>
+    </div>
 
 </div>  
 
 <script type="text/javascript">
 
 var json_file='fed_new.json';
+var level_input='District level';
 var sector_input='Economy';
 var this_dataset = [];
 draw_map(json_file);
@@ -204,6 +223,14 @@ draw_map(json_file);
 function sector_Update(num, this_text) {
                 document.querySelector('#sector').value = this_text;
                 sector_input = num;
+                update_color(this_dataset);
+                add_information(this_dataset);
+}
+
+function level_Update(num, this_text) {
+                document.querySelector('#level').value = this_text;
+                level_input = num;
+                update_naming(this_dataset);
                 update_color(this_dataset);
                 add_information(this_dataset);
 }
