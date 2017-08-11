@@ -1,0 +1,215 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>What does the Fed observe in the economy?</title>
+    <script type="text/javascript" src="d3.js" charset="utf-8"></script>
+    <script type="text/javascript" src="fedmap.js" charset="utf-8"></script>
+    <script type="text/javascript" src="jquery-ui/jquery.js"></script>
+    <script type="text/javascript" src="jquery-ui/jquery-ui.js"></script>
+    <script type="text/javascript" src="data/report_dates.js"></script>
+    <script type="text/javascript" src="jquery.event.move.js"></script>
+
+    <script>
+    $( function() {
+    $( "#slider-vertical" ).slider({
+      orientation: "vertical",
+      range: false,
+      min:1,
+      max:76,
+      value:76,
+      slide: function( event, ui ) {
+        myvalue = ui.value;
+        $(this).next().val(myvalue);
+        var this_value = report_dates[ui.value -1],
+    this_date = new Date(this_value.substring(4,6)+"/01/"+this_value.substring(0,4)),
+    locale = "en-us",
+    this_month = this_date.toLocaleString(locale, { month: "long" }),
+    this_year = this_date.toLocaleString(locale, { year: "numeric" });
+    $( "#amount" ).val(this_month + " " + this_year);
+    $( "#report_date").val(this_value);
+    load_data('data/data_'+this_value+".csv");
+    }
+    });
+    ;
+    var this_value = report_dates[$( "#slider-vertical" ).slider( "value" )-1],
+    this_date = new Date(this_value.substring(4,6)+"/01/"+this_value.substring(0,4)),
+    locale = "en-us",
+    this_month = this_date.toLocaleString(locale, { month: "long" }),
+    this_year = this_date.toLocaleString(locale, { year: "numeric" });
+    $( "#amount" ).val(this_month + " " + this_year);
+    load_data('data/data_'+this_value+".csv");
+  } );
+  </script>
+
+<link rel="stylesheet" href="jquery-ui/jquery-ui.css">
+<style>
+  body {background-color: white;padding-top: 0px;
+    padding-bottom: 0px;
+    padding-left: 60px;
+  width: 700px;
+font-size:115%;}
+
+  h1,h2,h3,h4,h5,h6{font-family:Arial,sans-serif;font-weight:200;0;color:black;}
+  h1{font-size: 150%;padding-top:20px }
+  h3{font-size: 115%;padding-top:20px }
+  h4{font-size: 100%;}
+  p {font-family:Garamond,sans-serif;color: black;}
+  td
+{
+    font-family:Garamond,sans-serif;color: black;
+    padding:0px 0px 0px 0px;
+    vertical-align: top;
+    text-align: left;
+
+}
+th
+{
+    padding:0px 15px 0px 0px;
+    text-align: left;
+}
+
+  a:link {
+    color:blue;
+    text-decoration:none;
+  }
+
+  a:hover {
+    color: black;
+    background-color: grey;
+}
+
+.ui-slider { position: absolute; top: 315px; left: 110px; text-align: left; }
+.ui-slider .ui-slider-handle { position: absolute; z-index: 2; width: 1.2em; height: 0.6em; cursor: default; background: grey;}
+.ui-slider .ui-slider-handle.ui-state-active {border: 0px;}
+.ui-slider .ui-slider-range { position: absolute; z-index: 1; font-size: .7em; display: block; border: 0; background-position: 0 0; }
+
+.ui-slider-vertical {width: .8em; height: 200px;}
+.ui-slider-vertical .ui-slider-handle { left: -.3em; margin-left: 0; margin-bottom: -.6em; }
+.ui-slider-vertical .ui-slider-range { left: 0; width: 100%; }
+.ui-slider-vertical .ui-slider-range-min { bottom: 0; }
+.ui-slider-vertical .ui-slider-range-max { top: 0; }
+.ui-widget-content { border: 0.5px solid #aaaaaa; background: #dfe5e7;}
+
+/* Dropdown Button */
+.dropbtn {
+    background-color: "grey";
+    color: white;
+    padding: 8px;
+    font-size: 14px;
+    border: none;
+    cursor: pointer;
+    font-family:Arial;
+    border-radius: 18px;
+    width: 200px;
+}
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+    position: absolute; top: 320px; left: 400px;
+    display: inline-block;
+    text-decoration: none;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9FF;
+    min-width: 80px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    font-size: 14px;
+    font-family:Arial;
+    text-align: center;
+    line-height:20px;
+}
+
+/* Links inside the dropdown */
+.dropdown-content option {
+    color: black;
+    text-decoration: none;
+    display: block;
+}
+
+
+
+
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover {background-color: #B1B1B1}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+/* Change the background color of the dropdown button when the dropdown content is shown */
+.dropdown:hover .dropbtn {
+    background-color: #B1B1B1;
+}
+
+</style>
+
+</head>
+
+<body>
+  <h1>What does the Fed observe in the economy?</h1>
+  <h4>by Alexander Trentin</h4>
+
+ <p>The Federal Reserve System, the US central bank, publishes eight times a year a "Beige Book". This is a collection of anecdotal observations of the economy. Anybody who wanted to have access to it, needed to read it. Until now.</p>
+
+<p>
+  <input type="text" id="district" size="400" style="border:0; color:black; font-family:Garamond; font-size:18px; "><br>
+   <input type="text" id="sentence" size="400" style="border:0; color:black; font-family:Garamond; font-size:18px; ">
+</p>
+
+<p>
+  <label for="amount">Report date:</label>
+  <input type="text" id="amount" readonly style="border:0; color:black; font-family:Garamond; font-size:18px; ">
+
+</p>
+<p><em></em>
+</p>
+
+<div id="slider-vertical";></div>
+
+<div class="dropdown">
+  <button class="dropbtn">
+  <output for=value id="sector">Sector</output>
+  </button>
+  
+  <div class="dropdown-content">
+    <a href="javascript:;" data-value="Economy" data-text='Economy' onclick="sector_Update($(this).data('value'),$(this).data('text'));">Economy</a><br>
+    <a href="javascript:;" data-value="Employment, Prices, Wages" data-text='Employment, Prices, Wages' onclick="sector_Update($(this).data('value'),$(this).data('text'));">Employment, Prices, Wages</a><br>
+    <a href="javascript:;" data-value="Agriculture, Energy, Natural Resources" data-text='Agriculture, Energy, Natural Resources' onclick="sector_Update($(this).data('value'),$(this).data('text'));">Agriculture, Energy, Natural Resources</a><br>
+        <a href="javascript:;" data-value="Finance" data-text='Finance' onclick="sector_Update($(this).data('value'),$(this).data('text'));">Finance</a><br>
+    <a href="javascript:;" data-value="Manufacturing, Services" data-text='Manufacturing, Services' onclick="sector_Update($(this).data('value'),$(this).data('text'));">Manufacturing, Services</a><br>
+         <a href="javascript:;" data-value="Real Estate, Construction" data-text='Real Estate, Construction' onclick="sector_Update($(this).data('value'),$(this).data('text'));">Real Estate, Construction</a>
+    <a href="javascript:;" data-value="Retail, Consumer Spending" data-text='Retail, Consumer Spending' onclick="sector_Update($(this).data('value'),$(this).data('text'));">Retail, Consumer Spending</a><br>
+
+
+  </div>
+
+</div>  
+
+<script type="text/javascript">
+
+var json_file='fed_new.json';
+var sector_input='Economy';
+var this_dataset = [];
+draw_map(json_file);
+
+function sector_Update(num, this_text) {
+                document.querySelector('#sector').value = this_text;
+                sector_input = num;
+                update_color(this_dataset);
+                add_information(this_dataset);
+}
+
+
+</script>
+
+</body>
+</html>
