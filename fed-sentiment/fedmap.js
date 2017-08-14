@@ -52,7 +52,7 @@ function update_color(district_data) {
         .attr("fill","darkgreen")
         .attr("font-size","24px");
       }
-      return "url(#diagonal-stripe-1)";
+      return "seashell";
 
     }
     
