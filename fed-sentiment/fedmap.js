@@ -1,3 +1,5 @@
+
+
 function load_data(this_filename) {
 
      d3.csv(this_filename, function(data) {
@@ -15,16 +17,18 @@ function load_data(this_filename) {
 function update_color(district_data) {
     var svg = d3.selectAll("svg");
     this_path = svg.selectAll("path");
+    var g = svg.append("g");
 
+    svg.selectAll("g").selectAll('text').attr("fill","transparent");
 
     this_path.style('fill', function(d,i) {
         return coloring(d);});
 
     function coloring(d) {
     var new_data = district_data.filter(function(thisData) {
+      
 
       if(level_input == 'National level') {
-
         return ((thisData.District == "National Summary")  && (thisData.Category == sector_input));
       } 
       else
@@ -35,12 +39,21 @@ function update_color(district_data) {
     })
 
     if(new_data.length>0) {
-
+      
       var this_color = new_data[0].color;
       this_color = d3.rgb(this_color);
       return this_color;
     } else {
-      return "white";
+      if(level_input == "National level") {
+        g.append('text')
+        .attr("x","300")
+          .attr("y","200")
+        .text("No data available")
+        .attr("fill","darkgreen")
+        .attr("font-size","24px");
+      }
+      return "url(#diagonal-stripe-1)";
+
     }
     
   }
