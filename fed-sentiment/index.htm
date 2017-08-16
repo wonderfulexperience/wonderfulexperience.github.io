@@ -10,7 +10,7 @@
     <script type="text/javascript" src="jquery-ui/jquery.js"></script>
     <script type="text/javascript" src="jquery-ui/jquery-ui.js"></script>
     <script type="text/javascript" src="data/report_dates.js"></script>
-    <script type="text/javascript" src="jquery.event.move.js"></script>
+    
 
     <script>
     $( function() {
@@ -121,13 +121,13 @@ textarea {
     display: none;
     position: absolute;
     background-color: #f9f9FF;
-    width: 200px;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
     z-index: 1;
     font-size: 14px;
     font-family:Arial;
     text-align: center;
     line-height:20px;
+    width:200px;
 }
 
 /* Links inside the dropdown */
@@ -154,13 +154,17 @@ textarea {
 #dropdown_1 {
   position: absolute;
   left: 620px;
-  top: 320px;
+  top: 310px;
 }
 
 #dropdown_2 {
   position: absolute;
   left: 350px;
-  top: 320px;
+  top: 310px;
+}
+
+#dropdown_3 {
+  margin-left: 350px;
 }
 
 </style>
@@ -168,8 +172,6 @@ textarea {
 </head>
 
 <body>
-
-<svg height="10" width="10" version="1.1"> <defs> <pattern id="diagonal-stripe-1" patternUnits="userSpaceOnUse" width="10" height="10"> <image xlink:href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPScxMCcgaGVpZ2h0PScxMCc+CiAgPHJlY3Qgd2lkdGg9JzEwJyBoZWlnaHQ9JzEwJyBmaWxsPSd3aGl0ZScvPgogIDxwYXRoIGQ9J00tMSwxIGwyLC0yCiAgICAgICAgICAgTTAsMTAgbDEwLC0xMAogICAgICAgICAgIE05LDExIGwyLC0yJyBzdHJva2U9J2JsYWNrJyBzdHJva2Utd2lkdGg9JzEnLz4KPC9zdmc+Cg==" x="0" y="0" width="10" height="10"> </image> </pattern> </defs> </svg>
 
   <h1>What does the Fed observe in the economy?</h1>
   <h4>by Alexander Trentin</h4>
@@ -186,7 +188,7 @@ textarea {
   <input type="text" id="amount" readonly style="border:0; color:black; font-family:Garamond; font-size:18px; ">
 </p>
 <p><em></em>
-</p>
+
 
 <div id="slider-vertical";></div>
 
@@ -215,6 +217,18 @@ textarea {
     <a href="javascript:;" data-value="District level" data-text='District level' onclick="level_Update($(this).data('value'),$(this).data('text'));">District level</a><br>
     <a href="javascript:;" data-value="National level" data-text='National level' onclick="level_Update($(this).data('value'),$(this).data('text'));">National level</a>
     </div>
+    </div> 
+
+    <div class="dropdown" id="dropdown_3";>
+  <button class="dropbtn">
+  <output for=value id="chart">Select chart</output>
+  </button>
+
+  <div class="dropdown-content">
+    <a href="javascript:;" data-value="Growth" data-text='Growth' onclick="chart_Update($(this).data('value'),$(this).data('text'));">Real GDP growth</a><br>
+    <a href="javascript:;" data-value="Unemployment" data-text='Unemployment' onclick="chart_Update($(this).data('value'),$(this).data('text'));">Unemployment</a><br>
+    <a href="javascript:;" data-value="Inflation" data-text='Inflation' onclick="chart_Update($(this).data('value'),$(this).data('text'));">Inflation</a>
+    </div>
 
 </div>  
 
@@ -223,8 +237,13 @@ textarea {
 var json_file='fed_new.json';
 var level_input='District level';
 var sector_input='Economy';
+var chart_input='Growth';
+var chart_data=[];
+document.querySelector('#chart').value = chart_input;
+
 var this_dataset = [];
 draw_map(json_file);
+draw_chart();
 
 function sector_Update(num, this_text) {
                 document.querySelector('#sector').value = this_text;
@@ -241,6 +260,11 @@ function level_Update(num, this_text) {
                 add_information(this_dataset);
 }
 
+function chart_Update(num, this_text) {
+                document.querySelector('#chart').value = this_text;
+                chart_input = num;
+                draw_chart();
+}
 
 </script>
 
