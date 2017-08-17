@@ -259,7 +259,7 @@ function update_chart() {
   var width = 400;
   var height = 200;
 
-  var padding = 15;
+  var padding = 22;
   var padding_left = 100;
 
   var svg = d3.select('#charts');
@@ -386,7 +386,7 @@ function update_circle() {
   var width = 400;
   var padding_left = 100;
   var height = 200;
-  var padding = 15;
+  var padding = 22;
 
       var max_date = d3.max(chart_data, function(d){return d.DATE});
 
@@ -433,32 +433,20 @@ function update_circle() {
             return false;
             });
 
+      svg.select("#circle_layer").remove()
+      
+      var circleGroup = svg.append("g").attr("id","circle_layer");
+      
+      circleGroup.select("circle").remove();
 
-      if(svg.select("#circle_layer").empty()) {
-        var circleGroup = svg.append("g").attr("id","circle_layer");
-      } else {
-        var circleGroup = svg.select("#circle_layer");
-      }
-
-      if(circleGroup.select("circle").empty()) {
+      if(typeof current_value[0] != 'undefined') {
       circleGroup.append("circle")
-                    .attr("cy", 0)
-                    .attr("cx", 0)
+                  .attr("cy", yScale(current_value[0]['VALUE']))
+                    .attr("cx", xScale(current_value[0]['DATE']))
                     .attr("r", 5)
                     .attr("opacity", 0.5)
-                    .style("fill", "transparent");
-      }
-      
-      if(typeof current_value[0] != 'undefined') {
-      circleGroup.select("circle")
-                    .attr("cy", yScale(current_value[0]['VALUE']))
-                    .attr("cx", xScale(current_value[0]['DATE']))
                     .style("fill", "blue");
-      } else {
-        circleGroup.select("circle")
-                    .style("fill", "transparent");
       }
-
 
 }
 
