@@ -1,0 +1,59 @@
+<!doctype html>
+
+<html>
+<head>
+
+  <title>What do companies talk about?</title>
+    <script type="text/javascript" src="d3.js"></script>
+    <script type="text/javascript" src="earningcalls.js"></script>
+
+<style>
+    body {
+      width: 600px;
+      margin: 20px;
+    }
+    div.tooltip { 
+    position: absolute;     
+    text-align: center;     
+    width: 180px;       
+    padding: 10px;       
+    font: 12px sans-serif; 
+    border: 0px;    
+    border-radius: 2px;     
+    pointer-events: none;     
+}
+div.tooltip_company { 
+    position: absolute;     
+    text-align: center;     
+    width: 80px;       
+    padding: 5px;       
+    font: 12px sans-serif; 
+    border: 0px;    
+    border-radius: 2px;     
+    pointer-events: none;     
+}
+</style>
+
+</head>
+
+<body>
+
+  <h1>What did companies talk about?</h1>
+  <h4>by Alexander Trentin</h4>
+
+ <p>Conference call transcripts from companies show what CEOs talk about when presenting their quarterly results to financial analysts. Comparing these transcripts from one year to another give some insight what the focus of these companies is.</p>
+
+
+<script type="text/javascript">
+
+var this_filename_chart1 = 'export.csv';
+var this_filename_chart2 = 'overall_change.csv';
+
+load_data_chart1(this_filename_chart1);
+load_data_chart2(this_filename_chart2);
+</script>
+
+
+
+</body>
+</html>
