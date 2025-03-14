@@ -324,6 +324,7 @@ function createQuestionnaire() {
         questionnaireForm.appendChild(questionDiv);
     });
 }
+
 function calculateResult() {
     const formElements = document.getElementById('questionnaire').elements;
     let allAnswered = true;
@@ -486,29 +487,37 @@ function sendHeight() {
     window.parent.postMessage({ type: 'resize', height: height }, '*'); // Replace '*' with your CMS domain!
 }
 
-// Create a MutationObserver
-const observer = new MutationObserver(sendHeight);
+let observer = null; // Declare observer outside
 
-// Configuration for the observer:
-const config = {
-    attributes: true,
-    childList: true,
-    subtree: true,
-    characterData: true // Observe text changes
-};
+function startObserving() {
+    if (observer) { return; } // Only create it once.
 
-// Start observing the body *after* DOMContentLoaded, and *only* if we're in an iframe.
-if (window.top !== window.self) {
-    observer.observe(document.body, config);
+    observer = new MutationObserver(sendHeight);
+
+    const config = {
+        attributes: true,
+        childList: true,
+        subtree: true,
+        characterData: true
+    };
+
+      // Only observe if we're inside an iframe
+    if (window.top !== window.self) {
+          observer.observe(document.body, config);
+      }
 }
 
 // --- Initialize ---
 
 document.addEventListener('DOMContentLoaded', () => {
-    console.log("DOMContentLoaded event fired"); // Debugging
+    console.log("DOMContentLoaded event fired");
     try {
         createQuestionnaire();
-        // Initial height is sent by the MutationObserver (if in iframe)
+        // Don't start observing immediately.  Wait until *after* initial render.
+        sendHeight(); // Send initial height *before* observing.
+        startObserving(); // *Now* start observing for subsequent changes.
+
+
     } catch (e) {
         console.error("Error in createQuestionnaire:", e);
         const questionnaireElement = document.getElementById('questionnaire');
