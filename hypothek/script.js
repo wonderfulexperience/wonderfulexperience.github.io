@@ -2,11 +2,11 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log("Script loaded, creating questionnaire");
     try {
         createQuestionnaire();
-        // Initial height will be sent by MutationObserver
+        // Send initial height after loading
+        sendHeight();
     } catch (e) {
         console.error("Error in createQuestionnaire:", e);
         document.getElementById('questionnaire').innerHTML = "<p style='color:red;'>Fehler beim Laden der Fragen: " + e.message + "</p>";
-        sendHeight(); // Ensure height is sent even on error
     }
 });
 
@@ -65,25 +65,10 @@ function createQuestionnaire() {
 
 // Function to send height to parent window
 function sendHeight() {
-    const height = document.body.scrollHeight; // NO +20 here.  Parent adds it.
-    console.log("Sending height:", height);
-    window.parent.postMessage({ type: 'resize', height: height }, '*'); // Add type for consistency, still use '*' for now
+    const height = document.body.scrollHeight + 20; // Add padding
+    console.log("Sending height:", height); // Debug
+    window.parent.postMessage({ height: height }, '*');
 }
-
-
-// Create a MutationObserver
-const observer = new MutationObserver(sendHeight);
-
-// Configuration for the observer:
-const config = {
-    attributes: true,   // Watch for attribute changes (like style)
-    childList: true,    // Watch for added/removed nodes
-    subtree: true      // Watch all descendants, not just direct children
-    characterData: true // Needed to observe text changes.
-};
-
-// Start observing the body *after* DOMContentLoaded
-observer.observe(document.body, config);
 
 // Function to calculate the result
 function calculateResult() {
@@ -109,7 +94,7 @@ function calculateResult() {
 
     if (!allAnswered) {
         document.getElementById('result').innerHTML = "<p style='color:red;'>Bitte beantworten Sie alle Fragen.</p>";
-        // sendHeight(); // No need, MutationObserver handles it
+        sendHeight(); // Update height even on error
         return;
     }
 
@@ -184,5 +169,6 @@ function calculateResult() {
     }
 
     document.getElementById('result').innerHTML = `<div id="profile-summary">${profileSummary}</div>${resultText}`;
-    // No need for setTimeout or sendHeight() here.  MutationObserver handles it.
+    // Send updated height after result is rendered
+    setTimeout(sendHeight, 100); // Delay to ensure DOM updates
 }
