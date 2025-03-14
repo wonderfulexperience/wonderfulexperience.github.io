@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="ch-de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hypotheken-Ratgeber</title>
+    <style>
+        /* General Body Styles */
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+
+        h1, h2, h3 {
+            color: #003366;
+        }
+
+        /* Container Styles */
+        .container {
+            max-width: 800px;
+            width: 100%;
+            margin: auto;
+            background: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Question Styles */
+        .question {
+            margin-bottom: 20px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+        }
+
+        .question:last-child {
+            border-bottom: none;
+        }
+
+        .question h3 {
+            color: #003366;
+            margin-bottom: 0.5em;
+            font-size: 1.1em;
+            display: inline-block;
+            line-height: 1;
+        }
+
+        /* Form Element Styles */
+        label {
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        input[type="radio"] {
+            margin-right: 10px;
+        }
+
+        /* Button Styles */
+        button {
+            background-color: #003366;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 10px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Result Styles */
+        #result {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #e9ecef;
+            border-radius: 5px;
+        }
+
+        /* Profile Summary Styles */
+        #profile-summary {
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            width: 100%;
+        }
+
+        #profile-summary h3 {
+            margin-top: 0;
+            margin-bottom: 15px;
+            color: #003366;
+            text-align: center;
+        }
+
+        #profile-summary table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        #profile-summary th,
+        #profile-summary td {
+            padding: 8px;
+            border-bottom: 1px solid #dee2e6;
+            text-align: left;
+        }
+
+        #profile-summary th {
+            font-weight: bold;
+            width: 40%;
+        }
+
+        .profile-result {
+            font-weight: bold;
+        }
+
+        /* Info Icon and Tooltip Styles */
+        .info-icon {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            background-color: #003366;
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            font-size: 12px;
+            line-height: 16px;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .info-icon:hover .tooltip {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .tooltip {
+            visibility: hidden;
+            width: 80%;
+            max-width: 350px;
+            min-width: 40ch;
+            background-color: #333;
+            color: #fff;
+            text-align: left;
+            border-radius: 6px;
+            padding: 10px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+            transition: opacity 0.3s;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+            box-sizing: border-box;
+            word-break: break-word;
+            white-space: normal;
+        }
+
+        .tooltip::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: #333 transparent transparent transparent;
+        }
+
+        /* Disclaimer Styles */
+        .disclaimer {
+            margin-top: 20px;
+            font-size: 0.9em;
+            color: #666;
+            border-top: 1px solid #eee;
+            padding-top: 10px;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 10px;
+            }
+
+            .question {
+                margin-bottom: 15px;
+                padding-bottom: 8px;
+            }
+            h1 {
+                font-size: 1.5em;
+            }
+            h2 {
+                font-size: 1.3em;
+            }
+            h3 {
+                font-size: 1.1em;
+            }
+
+            .tooltip {
+                bottom: 115%;
+            }
+            #profile-summary td, #profile-summary th {
+                display: block;
+                width: 100%;
+            }
+            #profile-summary th {
+                margin-bottom: 5px;
+            }
+
+            #profile-summary td {
+                padding-left: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 id="mainTitle"></h1>
+        <p id="introText1"></p>
+        <p id="introText2"></p>
+
+        <form id="questionnaire"></form>
+
+        <button type="button" onclick="calculateResult()">Ergebnis berechnen</button>
+
+        <div id="result"></div>
+
+        <div class="disclaimer">
+            <strong id="disclaimerTitle"></strong><span id="disclaimerText"></span>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
