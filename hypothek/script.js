@@ -190,4 +190,271 @@ const textContent = {
         `,
         langfrist: `
             <h2>Empfehlung: Langfristige Festhypothek (10+ Jahre)</h2>
-            <p>Eine langfristige Festhypothek mit einer Laufzeit von 10 Jahren oder mehr sichert Ihnen die aktuellen Zinskonditionen für einen sehr langen Zeitraum. Dies gibt Ihnen maximale Planungssicherheit und schützt Sie vollständig vor Zinserhöhungen – allerdings zu höheren Kosten und
+            <p>Eine langfristige Festhypothek mit einer Laufzeit von 10 Jahren oder mehr sichert Ihnen die aktuellen Zinskonditionen für einen sehr langen Zeitraum. Dies gibt Ihnen maximale Planungssicherheit und schützt Sie vollständig vor Zinserhöhungen – allerdings zu höheren Kosten und mit eingeschränkter Flexibilität.</p>
+            <p><strong>Vorteile:</strong></p>
+            <ul>
+                <li>Konstante monatliche Raten.</li>
+                <li>Kein Zinsänderungsrisiko.</li>
+                <li>Ideal für langfristige Planung.</li>
+            </ul>
+            <p><strong>Nachteile:</strong></p>
+            <ul>
+                <li>Potenziell höhere Zinskosten als bei kürzeren Laufzeiten.</li>
+                <li>Geringe Flexibilität.</li>
+            </ul>
+            <p><strong>Für wen geeignet:</strong></p>
+            <ul>
+                <li>Sicherheitsorientierte Wohneigentümer.</li>
+                <li>Personen, die Wert auf maximale Planbarkeit legen.</li>
+            </ul>
+            <p><strong>Zusätzliche Überlegungen:</strong></p>
+            <ul>
+                <li>Vorzeitige Auflösung: Es wird eine Vorfälligkeitsentschädigung fällig.</li>
+                <li>Amortisation: Prüfen Sie die indirekte Amortisation.</li>
+                <li>Überprüfen Sie etwa sechs Monate vor Ablauf die Konditionen.</li>
+            </ul>
+        `,
+        splitting: `
+            <h2>Empfehlung: Hypotheken-Splitting</h2>
+            <p>Das Hypotheken-Splitting – also die Aufteilung Ihrer Gesamthypothek in mehrere Teilhypotheken mit unterschiedlichen Laufzeiten und Zinsmodellen – ermöglicht Ihnen eine Risikostreuung.</p>
+            <p><strong>Beispiel-Splitting:</strong></p>
+            <ul>
+                <li>40% Saron-Hypothek</li>
+                <li>30% mittelfristige Festhypothek (5 Jahre)</li>
+                <li>30% langfristige Festhypothek (10 Jahre)</li>
+            </ul>
+            <p><strong>Vorteile:</strong></p>
+            <ul>
+                <li>Diversifikation des Zinsrisikos.</li>
+                <li>Kombination verschiedener Hypothekenarten.</li>
+            </ul>
+            <p><strong>Nachteile:</strong></p>
+            <ul>
+                <li>Kann komplexer sein.</li>
+                <li>Kann die Flexibilität einschränken.</li>
+            </ul>
+            <p><strong>Für wen geeignet:</strong></p>
+            <ul>
+                <li>Wohneigentümer, die Risiken streuen möchten.</li>
+                <li>Personen, die sich nicht festlegen möchten.</li>
+            </ul>
+            <p><strong>Empfehlungen für effektives Splitting:</strong></p>
+            <ul>
+                <li>Verteilen Sie die Ablaufdaten sinnvoll.</li>
+                <li>Vermeiden Sie zu kleine Tranchen (unter 100'000 Fr.).</li>
+                <li>Überprüfen Sie regelmässig Ihre Strategie.</li>
+            </ul>
+        `,
+        beratung: `
+            <h2>Persönliche Fachberatung empfohlen</h2>
+            <p>Basierend auf Ihren Antworten erfordert Ihre Situation eine Analyse durch einen Experten, um die passende Lösung zu finden.</p>
+            <p><strong>Nächste Schritte für Sie:</strong></p>
+            <ul>
+                <li>Holen Sie Offerten von verschiedenen Anbietern ein.</li>
+                <li>Bereiten Sie folgende Unterlagen für das Beratungsgespräch vor: Lohnausweise, Steuererklärung, Betreibungsregisterauszug, Grundbuchauszug, bestehende Hypothekarverträge und Details zu Ihren Vermögenswerten.</li>
+                <li>Klären Sie im Beratungsgespräch: Zinssätze, Zinsentwicklung, Amortisationsstrategie, steuerliche Optimierung und Eigenkapitalstruktur.</li>
+            </ul>
+        `
+    }
+};
+
+// Function to create the questionnaire
+function createQuestionnaire() {
+    document.getElementById('mainTitle').innerText = textContent.mainTitle;
+    document.getElementById('introText1').innerText = textContent.introText1;
+    document.getElementById('introText2').innerText = textContent.introText2;
+    document.getElementById('disclaimerTitle').innerText = textContent.disclaimerTitle;
+    document.getElementById('disclaimerText').innerText = textContent.disclaimerText;
+
+    const questionnaireForm = document.getElementById('questionnaire');
+    questionnaireForm.innerHTML = '';
+
+    textContent.questions.forEach(question => {
+        const questionDiv = document.createElement('div');
+        questionDiv.classList.add('question');
+
+        const questionText = document.createElement('h3');
+        questionText.textContent = `${question.id}. ${question.text.trim()}`;
+        questionText.style.display = 'inline-block';
+        questionText.style.lineHeight = '1';
+        questionDiv.appendChild(questionText);
+
+        const infoIcon = document.createElement('span');
+        infoIcon.classList.add('info-icon');
+        infoIcon.textContent = 'i';
+
+        const tooltip = document.createElement('span');
+        tooltip.classList.add('tooltip');
+        tooltip.textContent = question.info;
+
+        infoIcon.appendChild(tooltip);
+        questionText.appendChild(infoIcon);
+
+        question.options.forEach(option => {
+            const label = document.createElement('label');
+            const radio = document.createElement('input');
+            radio.type = 'radio';
+            radio.name = `question${question.id}`;
+            radio.value = option.value;
+            label.appendChild(radio);
+            label.append(option.label);
+            questionDiv.appendChild(label);
+        });
+
+        questionnaireForm.appendChild(questionDiv);
+    });
+}
+
+// Function to calculate the result
+function calculateResult() {
+    const formElements = document.getElementById('questionnaire').elements;
+    let allAnswered = true;
+
+    for (let i = 0; i < formElements.length; i++) {
+        if (formElements[i].type === 'radio' && !formElements[i].checked) {
+            let foundChecked = false;
+            const radioGroupName = formElements[i].name;
+            for (let j = 0; j < formElements.length; j++) {
+                if (formElements[j].type === "radio" && formElements[j].name === radioGroupName && formElements[j].checked) {
+                    foundChecked = true;
+                    break;
+                }
+            }
+            if (!foundChecked) {
+                allAnswered = false;
+                break;
+            }
+        }
+    }
+
+    if (!allAnswered) {
+        document.getElementById('result').innerHTML = "<p style='color:red;'>Bitte beantworten Sie alle Fragen.</p>";
+        return;
+    }
+
+    const answers = {};
+    textContent.questions.forEach(question => {
+        answers[`q${question.id}`] = document.querySelector(`input[name="question${question.id}"]:checked`)?.value;
+    });
+
+    let points = {
+        saron: 0, kurz: 0, lang: 0, splitting: 0, beratung: 0
+    };
+
+    function adjustPoints(question, valuePoints) {
+        if (answers[question] && valuePoints[answers[question]]) {
+            for (const key in valuePoints[answers[question]]) {
+                points[key] += valuePoints[answers[question]][key];
+            }
+        }
+    }
+
+    adjustPoints('q1', {
+        sicher: { saron: -2, kurz: 1, lang: 3, splitting: -1 },
+        ausgewogen: { saron: 0, kurz: 1, lang: 1, splitting: 1 },
+        risikofreudig: { saron: 3, kurz: 0, lang: -2, splitting: 0 }
+    });
+    adjustPoints('q2', {
+        steigend: { saron: -3, kurz: 1, lang: 2 },
+        gleichbleibend: { saron: 1, kurz: 1, lang: 0, splitting: 1 },
+        fallend: { saron: 2, kurz: 0, lang: -3 }
+    });
+    adjustPoints('q3', {
+        klein: { saron: -1, kurz: 0, lang: 1, splitting: 1 },
+        mittel: { saron: 1, kurz: 0, lang: 0 },
+        gross: { saron: 2, kurz: 1, lang: -2, splitting: -1 }
+    });
+    adjustPoints('q4', {
+        stabil: { saron: 0, kurz: 1, lang: 2, beratung: -1 },
+        gut: { saron: 1, kurz: 1, lang: 0, splitting: 1 },
+        angespannt: { saron: 2, kurz: -1, lang: -2, beratung: 2, splitting: 1 }
+    });
+    adjustPoints('q5', {
+        flexibel: { saron: 3, kurz: -1, lang: -2, splitting: 1 },
+        ausgewogen2: { saron: 1, kurz: 1, lang: 0, splitting: 1 },
+        sicher2: { saron: -2, kurz: 1, lang: 3, splitting: -1 }
+    });
+    adjustPoints('q6', {
+        ja: { saron: 2, kurz: 0, lang: -1, splitting: 1 },
+        vielleicht: { saron: 1, kurz: 1, lang: 0 },
+        nein: { saron: -1, kurz: 0, lang: 1, beratung: 1, splitting: -1 }
+    });
+    adjustPoints('q7', {
+        kurz: { saron: 3, kurz: 1, lang: -2 },
+        mittel2: { saron: 1, kurz: 2, lang: 0, splitting: 1 },
+        lang: { saron: -2, kurz: 0, lang: 3, splitting: -1 }
+    });
+    adjustPoints('q8', {
+        ja2: { saron: 2, kurz: 0, lang: -1, beratung: -1 },
+        begrenzt: { saron: 1, kurz: 1, lang: 0, splitting: 1 },
+        nein2: { saron: -2, kurz: 0, lang: 1, beratung: 2, splitting: -1 }
+    });
+    adjustPoints('q9', {
+        aktiv: { saron: 3, kurz: -1, lang: -2, splitting: 1 },
+        passiv: { saron: 1, kurz: 1, lang: 0, splitting: 1 },
+        sehrPassiv: { saron: -2, kurz: 1, lang: 2, splitting: -1 }
+    });
+    adjustPoints('q10', {
+        ja3: { splitting: 3 },
+        nein3: { splitting: -3 },
+        unsicher: { beratung: 3 }
+    });
+    adjustPoints('q11', {
+        pensionJa: { kurz: 2, lang: 1, beratung: 2 },
+        pensionNein: { saron: 1, kurz: 0, lang: 0 },
+    });
+    adjustPoints('q12', {
+        tragbarKeinProblem: { saron: 3, kurz: 0, lang: -2, beratung: -2 },
+        tragbarAngespannt: { kurz: 1, lang: 1, beratung: 1, splitting: 1 },
+        tragbarNein: { saron: -3, kurz: 0, lang: 2, beratung: 3, splitting: -1 }
+    });
+
+    const thresholdSaron = 7;
+    const thresholdKurz = 5;
+    const thresholdLang = 7;
+    const thresholdSplitting = 5;
+
+    let profileSummary = `
+        <h3>Aus Ihrem Profil folgt:</h3>
+        <table>
+            <tr>
+                <th>Saron-Hypothek</th>
+                <td class="profile-result">${points.saron >= thresholdSaron && answers.q12 !== "tragbarNein" && answers.q1 !== "sicher" ? "geeignet" : (points.saron > 0 ? "möglich" : "ungeeignet")}</td>
+            </tr>
+            <tr>
+                <th>Kurzfristige Festhypothek</th>
+                <td class="profile-result">${points.kurz >= thresholdKurz ? "geeignet" : (points.kurz > 0 ? "möglich" : "ungeeignet")}</td>
+            </tr>
+            <tr>
+                <th>Langfristige Hypothek</th>
+                <td class="profile-result">${points.lang >= thresholdLang && answers.q1 !== "risikofreudig" ? "geeignet" : (points.lang > 0 ? "möglich" : "ungeeignet")}</td>
+            </tr>
+            <tr>
+                <th>Splitting</th>
+                <td class="profile-result">${points.splitting >= thresholdSplitting ? "geeignet" : (points.splitting > 0 ? "möglich" : "ungeeignet")}</td>
+            </tr>
+            <tr>
+                <th>Beratungsbedarf</th>
+                <td class="profile-result">${answers.q12 === "tragbarNein" || (answers.q11 === "pensionJa" && (answers.q12 === "tragbarAngespannt" || answers.q12 === "tragbarNein")) ? "sehr hoch" : (points.beratung > 3 ? "hoch" : "normal")}</td>
+            </tr>
+        </table>
+    `;
+
+    let resultText = "";
+
+    if (answers.q12 === "tragbarNein" || (answers.q11 === "pensionJa" && (answers.q12 === "tragbarAngespannt" || answers.q12 === "tragbarNein")) || points.beratung > 5) {
+        resultText = textContent.results.beratung;
+    } else if (points.saron >= thresholdSaron && answers.q12 !== "tragbarNein" && answers.q1 !== "sicher") {
+        resultText = textContent.results.saron;
+    } else if (points.kurz >= thresholdKurz) {
+        resultText = textContent.results.kurzfrist;
+    } else if (points.lang >= thresholdLang && answers.q1 !== "risikofreudig") {
+        resultText = textContent.results.langfrist;
+    } else if (points.splitting >= thresholdSplitting) {
+        resultText = textContent.results.splitting;
+    } else {
+        resultText = textContent.results.beratung;
+    }
+
+    document.getElementById('result').innerHTML = `<div id="profile-summary">${profileSummary}</div>${resultText}`;
+}
