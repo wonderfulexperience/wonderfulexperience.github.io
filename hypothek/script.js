@@ -253,9 +253,8 @@ const textContent = {
 };
 
 function createQuestionnaire() {
-    console.log("createQuestionnaire function called"); // Debugging
+    console.log("createQuestionnaire function called");
 
-    // Check if elements exist before trying to modify them
     const mainTitleElement = document.getElementById('mainTitle');
     const introText1Element = document.getElementById('introText1');
     const introText2Element = document.getElementById('introText2');
@@ -265,7 +264,7 @@ function createQuestionnaire() {
 
     if (!mainTitleElement || !introText1Element || !introText2Element || !disclaimerTitleElement || !disclaimerTextElement || !questionnaireForm) {
         console.error("One or more required elements not found in the DOM.");
-        return; // Exit the function if elements are missing
+        return;
     }
 
     mainTitleElement.innerText = textContent.mainTitle;
@@ -274,17 +273,17 @@ function createQuestionnaire() {
     disclaimerTitleElement.innerText = textContent.disclaimerTitle;
     disclaimerTextElement.innerText = textContent.disclaimerText;
 
-    questionnaireForm.innerHTML = ''; // Clear previous content
+    questionnaireForm.innerHTML = '';
 
-    console.log("textContent.questions:", textContent.questions); // Debugging
+    console.log("textContent.questions:", textContent.questions);
 
     if (!textContent.questions || !Array.isArray(textContent.questions)) {
         console.error("textContent.questions is missing or not an array.");
-        return; // Exit if questions are missing or invalid
+        return;
     }
 
     textContent.questions.forEach(question => {
-        console.log("Current question:", question); // Debugging
+        console.log("Current question:", question);
         const questionDiv = document.createElement('div');
         questionDiv.classList.add('question');
 
@@ -307,7 +306,7 @@ function createQuestionnaire() {
 
         if (!question.options || !Array.isArray(question.options)) {
             console.warn(`Question ${question.id} has missing or invalid options.`);
-            return; // Skip to the next question if options are missing
+            return;
         }
 
         question.options.forEach(option => {
@@ -368,7 +367,7 @@ function calculateResult() {
         }
     }
 
-  adjustPoints('q1', {
+    adjustPoints('q1', {
         sicher: { saron: -2, kurz: 1, lang: 3, splitting: -1 },
         ausgewogen: { saron: 0, kurz: 1, lang: 1, splitting: 1 },
         risikofreudig: { saron: 3, kurz: 0, lang: -2, splitting: 0 }
@@ -428,7 +427,6 @@ function calculateResult() {
         tragbarNein: { saron: -3, kurz: 0, lang: 2, beratung: 3, splitting: -1 }
     });
 
-
     const thresholdSaron = 7;
     const thresholdKurz = 5;
     const thresholdLang = 7;
@@ -477,34 +475,30 @@ function calculateResult() {
     }
 
     document.getElementById('result').innerHTML = `<div id="profile-summary">${profileSummary}</div>${resultText}`;
+    debouncedSendHeight(); // Send height after calculating the result.
 }
 
-// --- iFrame Resizing Logic ---
+
+// --- iFrame Resizing Logic (Improved) ---
+
+let resizeTimeout;
+const cmsDomain = 'your-cms-domain.com'; // *** REPLACE WITH YOUR CMS DOMAIN ***
 
 function sendHeight() {
-    const height = document.body.scrollHeight;
-    console.log("Sending height:", height);
-    window.parent.postMessage({ type: 'resize', height: height }, '*'); // Replace '*' with your CMS domain!
+    // Use document.documentElement for more reliable height
+    const height = document.documentElement.scrollHeight;
+
+    if (window.parent !== window) { // Check if in iframe
+        console.log("Sending height:", height);
+        window.parent.postMessage({ type: 'resize', height: height }, cmsDomain);
+    } else {
+        console.warn("Not in an iframe - height not sent.");
+    }
 }
 
-let observer = null; // Declare observer outside
-
-function startObserving() {
-    if (observer) { return; } // Only create it once.
-
-    observer = new MutationObserver(sendHeight);
-
-    const config = {
-        attributes: true,
-        childList: true,
-        subtree: true,
-        characterData: true
-    };
-
-      // Only observe if we're inside an iframe
-    if (window.top !== window.self) {
-          observer.observe(document.body, config);
-      }
+function debouncedSendHeight() {
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(sendHeight, 200); // Debounce by 200ms
 }
 
 // --- Initialize ---
@@ -513,18 +507,22 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log("DOMContentLoaded event fired");
     try {
         createQuestionnaire();
-        // Don't start observing immediately.  Wait until *after* initial render.
-        sendHeight(); // Send initial height *before* observing.
-        startObserving(); // *Now* start observing for subsequent changes.
 
+        // Use ResizeObserver for the most reliable height updates
+        const resizeObserver = new ResizeObserver(debouncedSendHeight);
+        resizeObserver.observe(document.documentElement); // Observe the root element
+
+        // Initial height send (after a small delay, just in case)
+        setTimeout(sendHeight, 500);
 
     } catch (e) {
         console.error("Error in createQuestionnaire:", e);
         const questionnaireElement = document.getElementById('questionnaire');
-            if(questionnaireElement){ // Check to be extra safe
-               questionnaireElement.innerHTML = "<p style='color:red;'>Fehler beim Laden der Fragen: " + e.message + "</p>";
-            }
-
-        sendHeight(); // Send height even on error
+        if (questionnaireElement) {
+            questionnaireElement.innerHTML = "<p style='color:red;'>Fehler beim Laden der Fragen: " + e.message + "</p>";
+        }
+        debouncedSendHeight(); // Send height even on error.
     }
 });
+
+window.addEventListener('load', debouncedSendHeight); // Also send after all resources load.
