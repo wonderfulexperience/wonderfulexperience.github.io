@@ -253,16 +253,38 @@ const textContent = {
 };
 
 function createQuestionnaire() {
-    document.getElementById('mainTitle').innerText = textContent.mainTitle;
-    document.getElementById('introText1').innerText = textContent.introText1;
-    document.getElementById('introText2').innerText = textContent.introText2;
-    document.getElementById('disclaimerTitle').innerText = textContent.disclaimerTitle;
-    document.getElementById('disclaimerText').innerText = textContent.disclaimerText;
+    console.log("createQuestionnaire function called"); // Debugging
 
+    // Check if elements exist before trying to modify them
+    const mainTitleElement = document.getElementById('mainTitle');
+    const introText1Element = document.getElementById('introText1');
+    const introText2Element = document.getElementById('introText2');
+    const disclaimerTitleElement = document.getElementById('disclaimerTitle');
+    const disclaimerTextElement = document.getElementById('disclaimerText');
     const questionnaireForm = document.getElementById('questionnaire');
-    questionnaireForm.innerHTML = '';
+
+    if (!mainTitleElement || !introText1Element || !introText2Element || !disclaimerTitleElement || !disclaimerTextElement || !questionnaireForm) {
+        console.error("One or more required elements not found in the DOM.");
+        return; // Exit the function if elements are missing
+    }
+
+    mainTitleElement.innerText = textContent.mainTitle;
+    introText1Element.innerText = textContent.introText1;
+    introText2Element.innerText = textContent.introText2;
+    disclaimerTitleElement.innerText = textContent.disclaimerTitle;
+    disclaimerTextElement.innerText = textContent.disclaimerText;
+
+    questionnaireForm.innerHTML = ''; // Clear previous content
+
+    console.log("textContent.questions:", textContent.questions); // Debugging
+
+    if (!textContent.questions || !Array.isArray(textContent.questions)) {
+        console.error("textContent.questions is missing or not an array.");
+        return; // Exit if questions are missing or invalid
+    }
 
     textContent.questions.forEach(question => {
+        console.log("Current question:", question); // Debugging
         const questionDiv = document.createElement('div');
         questionDiv.classList.add('question');
 
@@ -283,6 +305,11 @@ function createQuestionnaire() {
         infoIcon.appendChild(tooltip);
         questionText.appendChild(infoIcon);
 
+        if (!question.options || !Array.isArray(question.options)) {
+            console.warn(`Question ${question.id} has missing or invalid options.`);
+            return; // Skip to the next question if options are missing
+        }
+
         question.options.forEach(option => {
             const label = document.createElement('label');
             const radio = document.createElement('input');
@@ -297,7 +324,6 @@ function createQuestionnaire() {
         questionnaireForm.appendChild(questionDiv);
     });
 }
-
 function calculateResult() {
     const formElements = document.getElementById('questionnaire').elements;
     let allAnswered = true;
@@ -329,7 +355,7 @@ function calculateResult() {
         answers[`q${question.id}`] = document.querySelector(`input[name="question${question.id}"]:checked`)?.value;
     });
 
-  let points = {
+    let points = {
         saron: 0, kurz: 0, lang: 0, splitting: 0, beratung: 0
     };
 
@@ -401,18 +427,18 @@ function calculateResult() {
         tragbarNein: { saron: -3, kurz: 0, lang: 2, beratung: 3, splitting: -1 }
     });
 
+
     const thresholdSaron = 7;
     const thresholdKurz = 5;
     const thresholdLang = 7;
     const thresholdSplitting = 5;
 
-     let profileSummary = `
+    let profileSummary = `
         <h3>Aus Ihrem Profil folgt:</h3>
         <table>
             <tr>
                 <th>Saron-Hypothek</th>
-                <td class="profile-result">${points.saron >= thresholdSaron && answers.q12 !== "tragbarNein" && answers.q1 !== "sicher" ? "geeignet" :
-                                (points.saron > 0 ? "möglich" : "ungeeignet")}</td>
+                <td class="profile-result">${points.saron >= thresholdSaron && answers.q12 !== "tragbarNein" && answers.q1 !== "sicher" ? "geeignet" : (points.saron > 0 ? "möglich" : "ungeeignet")}</td>
             </tr>
             <tr>
                 <th>Kurzfristige Festhypothek</th>
@@ -457,7 +483,7 @@ function calculateResult() {
 function sendHeight() {
     const height = document.body.scrollHeight;
     console.log("Sending height:", height);
-    window.parent.postMessage({ type: 'resize', height: height }, '*'); //  Replace '*' with your CMS domain!
+    window.parent.postMessage({ type: 'resize', height: height }, '*'); // Replace '*' with your CMS domain!
 }
 
 // Create a MutationObserver
@@ -471,18 +497,25 @@ const config = {
     characterData: true // Observe text changes
 };
 
-// Start observing the body
-observer.observe(document.body, config);
+// Start observing the body *after* DOMContentLoaded, and *only* if we're in an iframe.
+if (window.top !== window.self) {
+    observer.observe(document.body, config);
+}
 
 // --- Initialize ---
 
 document.addEventListener('DOMContentLoaded', () => {
+    console.log("DOMContentLoaded event fired"); // Debugging
     try {
         createQuestionnaire();
-        // Initial height is sent by the MutationObserver
+        // Initial height is sent by the MutationObserver (if in iframe)
     } catch (e) {
         console.error("Error in createQuestionnaire:", e);
-        document.getElementById('questionnaire').innerHTML = "<p style='color:red;'>Fehler beim Laden der Fragen: " + e.message + "</p>";
+        const questionnaireElement = document.getElementById('questionnaire');
+            if(questionnaireElement){ // Check to be extra safe
+               questionnaireElement.innerHTML = "<p style='color:red;'>Fehler beim Laden der Fragen: " + e.message + "</p>";
+            }
+
         sendHeight(); // Send height even on error
     }
 });
