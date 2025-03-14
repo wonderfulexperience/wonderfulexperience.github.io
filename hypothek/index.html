@@ -223,25 +223,41 @@
         padding-left: 20px; /* Adjust as needed for desired indentation */
     }
 }
-    </style>
-</head>
+
+        .container {
+        max-width: 800px;
+        width: 100%;
+        margin: auto;
+        background: #fff;
+        padding: 15px;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        height: 600px; /* Fixed height */
+        overflow-y: auto; /* Scroll if needed */
+    }
+    button {
+        background-color: #003366;
+        color: white;
+        padding: 12px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        margin-top: 10px;
+        width: auto; /* Adjusted to fit inline */
+        box-sizing: border-box;
+    }
+</style>
 <body>
     <div class="container">
         <h1 id="mainTitle"></h1>
         <p id="introText1"></p>
         <p id="introText2"></p>
-
         <form id="questionnaire"></form>
-
-        <button type="button" onclick="calculateResult()">Ergebnis berechnen</button>
-
         <div id="result"></div>
-
         <div class="disclaimer">
             <strong id="disclaimerTitle"></strong><span id="disclaimerText"></span>
         </div>
     </div>
-
     <script src="script.js"></script>
 </body>
-</html>

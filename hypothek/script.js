@@ -122,14 +122,14 @@ const textContent = {
                 { value: "tragbarAngespannt", label: "Grenzwertig, die Tragbarkeit würde sich der Grenze nähern oder leicht überschreiten" },
                 { value: "tragbarNein", label: "Kritisch, die Tragbarkeit würde deutlich über der Grenze liegen" }
             ],
-            info: "Ein plötzlicher Zinsanstieg kann die Belastung bei einer variablen Hypothek erheblich erhöhen. Banken berechnen die Tragbarkeit in der Regel mit einem Kalkulationszinssatz von 4,5 bs 5%, also deutlich über den aktuellen Marktzinsen, um genau dieses Risiko einzuplanen."
+            info: "Ein plötzlicher Zinsanstieg kann die Belastung bei einer variablen Hypothek erheblich erhöhen. Banken berechnen die Tragbarkeit in der Regel mit einem Kalkulationszinssatz von 4,5 bis 5%, also deutlich über den aktuellen Marktzinsen, um genau dieses Risiko einzuplanen."
         }
     ],
     results: {
         saron: `
             <h2>Empfehlung: Variable Saron-Hypothek</h2>
             <p>Eine Saron-Hypothek (variable Geldmarkthypothek) passt gut zu Ihrem Profil. Der Zins passt sich automatisch dem Schweizer Referenzzinssatz Saron an und wird typischerweise alle 3, 6 oder 12 Monate neu berechnet.</p>
-                <p><strong>Vorteile:</strong></p>
+            <p><strong>Vorteile:</strong></p>
             <ul>
                 <li>Potenziell tiefere Zinskosten.</li>
                 <li>Hohe Flexibilität.</li>
@@ -252,170 +252,105 @@ const textContent = {
     }
 };
 
-function createQuestionnaire() {
-    console.log("createQuestionnaire function called");
+let currentQuestionIndex = 0;
+let answers = {};
 
-    const mainTitleElement = document.getElementById('mainTitle');
-    const introText1Element = document.getElementById('introText1');
-    const introText2Element = document.getElementById('introText2');
-    const disclaimerTitleElement = document.getElementById('disclaimerTitle');
-    const disclaimerTextElement = document.getElementById('disclaimerText');
+function displayCurrentQuestion() {
     const questionnaireForm = document.getElementById('questionnaire');
+    questionnaireForm.innerHTML = ''; // Clear previous content
 
-    if (!mainTitleElement || !introText1Element || !introText2Element || !disclaimerTitleElement || !disclaimerTextElement || !questionnaireForm) {
-        console.error("One or more required elements not found in the DOM.");
+    // Hide intro and disclaimer initially after first question
+    if (currentQuestionIndex > 0) {
+        document.getElementById('introText1').style.display = 'none';
+        document.getElementById('introText2').style.display = 'none';
+        document.getElementById('disclaimerTitle').style.display = 'none';
+        document.getElementById('disclaimerText').style.display = 'none';
+    }
+
+    if (currentQuestionIndex >= textContent.questions.length) {
+        calculateResult();
         return;
     }
 
-    mainTitleElement.innerText = textContent.mainTitle;
-    introText1Element.innerText = textContent.introText1;
-    introText2Element.innerText = textContent.introText2;
-    disclaimerTitleElement.innerText = textContent.disclaimerTitle;
-    disclaimerTextElement.innerText = textContent.disclaimerText;
+    const question = textContent.questions[currentQuestionIndex];
+    const questionDiv = document.createElement('div');
+    questionDiv.classList.add('question');
 
-    questionnaireForm.innerHTML = '';
+    const questionText = document.createElement('h3');
+    questionText.textContent = `${question.id}. ${question.text.trim()}`;
+    questionText.style.display = 'inline-block';
+    questionText.style.lineHeight = '1';
+    questionDiv.appendChild(questionText);
 
-    console.log("textContent.questions:", textContent.questions);
+    const infoIcon = document.createElement('span');
+    infoIcon.classList.add('info-icon');
+    infoIcon.textContent = 'i';
 
-    if (!textContent.questions || !Array.isArray(textContent.questions)) {
-        console.error("textContent.questions is missing or not an array.");
-        return;
+    const tooltip = document.createElement('span');
+    tooltip.classList.add('tooltip');
+    tooltip.textContent = question.info;
+    infoIcon.appendChild(tooltip);
+    questionText.appendChild(infoIcon);
+
+    question.options.forEach(option => {
+        const label = document.createElement('label');
+        const radio = document.createElement('input');
+        radio.type = 'radio';
+        radio.name = `question${question.id}`;
+        radio.value = option.value;
+        if (answers[`q${question.id}`] === option.value) {
+            radio.checked = true; // Preserve previous answer
+        }
+        radio.addEventListener('change', () => {
+            answers[`q${question.id}`] = option.value; // Store answer on selection
+        });
+        label.appendChild(radio);
+        label.appendChild(document.createTextNode(option.label));
+        questionDiv.appendChild(label);
+    });
+
+    questionnaireForm.appendChild(questionDiv);
+
+    // Navigation buttons
+    const buttonContainer = document.createElement('div');
+    buttonContainer.style.display = 'flex';
+    buttonContainer.style.gap = '10px';
+    buttonContainer.style.marginTop = '20px';
+
+    if (currentQuestionIndex > 0) {
+        const prevButton = document.createElement('button');
+        prevButton.textContent = 'Zurück';
+        prevButton.type = 'button';
+        prevButton.onclick = () => {
+            currentQuestionIndex--;
+            displayCurrentQuestion();
+        };
+        buttonContainer.appendChild(prevButton);
     }
 
-    textContent.questions.forEach(question => {
-        console.log("Current question:", question);
-        const questionDiv = document.createElement('div');
-        questionDiv.classList.add('question');
-
-        const questionText = document.createElement('h3');
-        questionText.textContent = `${question.id}. ${question.text.trim()}`;
-        questionText.style.display = 'inline-block';
-        questionText.style.lineHeight = '1';
-        questionDiv.appendChild(questionText);
-
-        const infoIcon = document.createElement('span');
-        infoIcon.classList.add('info-icon');
-        infoIcon.textContent = 'i';
-
-        const tooltip = document.createElement('span');
-        tooltip.classList.add('tooltip');
-        tooltip.textContent = question.info;
-
-        infoIcon.appendChild(tooltip);
-        questionText.appendChild(infoIcon);
-
-        if (!question.options || !Array.isArray(question.options)) {
-            console.warn(`Question ${question.id} has missing or invalid options.`);
+    const nextButton = document.createElement('button');
+    nextButton.textContent = currentQuestionIndex === textContent.questions.length - 1 ? 'Ergebnis anzeigen' : 'Weiter';
+    nextButton.type = 'button';
+    nextButton.onclick = () => {
+        const selected = document.querySelector(`input[name="question${question.id}"]:checked`);
+        if (!selected && currentQuestionIndex < textContent.questions.length - 1) {
+            alert('Bitte wählen Sie eine Antwort aus.');
             return;
         }
+        currentQuestionIndex++;
+        displayCurrentQuestion();
+    };
+    buttonContainer.appendChild(nextButton);
 
-        question.options.forEach(option => {
-            const label = document.createElement('label');
-            const radio = document.createElement('input');
-            radio.type = 'radio';
-            radio.name = `question${question.id}`;
-            radio.value = option.value;
-            label.appendChild(radio);
-            label.append(option.label);
-            questionDiv.appendChild(label);
-        });
-
-        questionnaireForm.appendChild(questionDiv);
-    });
-}
-
-function createQuestionnaire() {
-    console.log("createQuestionnaire function called");
-
-    const mainTitleElement = document.getElementById('mainTitle');
-    const introText1Element = document.getElementById('introText1');
-    const introText2Element = document.getElementById('introText2');
-    const disclaimerTitleElement = document.getElementById('disclaimerTitle');
-    const disclaimerTextElement = document.getElementById('disclaimerText');
-    const questionnaireForm = document.getElementById('questionnaire');
-
-    if (!mainTitleElement || !introText1Element || !introText2Element || !disclaimerTitleElement || !disclaimerTextElement || !questionnaireForm) {
-        console.error("One or more required elements not found in the DOM.");
-        return;
-    }
-
-    mainTitleElement.innerText = textContent.mainTitle;
-    introText1Element.innerText = textContent.introText1;
-    introText2Element.innerText = textContent.introText2;
-    disclaimerTitleElement.innerText = textContent.disclaimerTitle;
-    disclaimerTextElement.innerText = textContent.disclaimerText;
-
-    questionnaireForm.innerHTML = '';
-
-    textContent.questions.forEach(question => {
-        const questionDiv = document.createElement('div');
-        questionDiv.classList.add('question');
-
-        const questionText = document.createElement('h3');
-        questionText.textContent = `${question.id}. ${question.text.trim()}`;
-        questionText.style.display = 'inline-block';
-        questionText.style.lineHeight = '1';
-        questionDiv.appendChild(questionText);
-
-        const infoIcon = document.createElement('span');
-        infoIcon.classList.add('info-icon');
-        infoIcon.textContent = 'i';
-
-        const tooltip = document.createElement('span');
-        tooltip.classList.add('tooltip');
-        tooltip.textContent = question.info;
-
-        infoIcon.appendChild(tooltip);
-        questionText.appendChild(infoIcon);
-
-        question.options.forEach(option => {
-            const label = document.createElement('label');
-            const radio = document.createElement('input');
-            radio.type = 'radio';
-            radio.name = `question${question.id}`;
-            radio.value = option.value;
-            label.appendChild(radio);
-            label.append(option.label);
-            questionDiv.appendChild(label);
-        });
-
-        questionnaireForm.appendChild(questionDiv);
-    });
-
-    updateIframeHeight(); // Initial height update after content is loaded
+    questionnaireForm.appendChild(buttonContainer);
 }
 
 function calculateResult() {
-    const formElements = document.getElementById('questionnaire').elements;
-    let allAnswered = true;
-
-    for (let i = 0; i < formElements.length; i++) {
-        if (formElements[i].type === 'radio' && !formElements[i].checked) {
-            let foundChecked = false;
-            const radioGroupName = formElements[i].name;
-            for (let j = 0; j < formElements.length; j++) {
-                if (formElements[j].type === "radio" && formElements[j].name === radioGroupName && formElements[j].checked) {
-                    foundChecked = true;
-                    break;
-                }
-            }
-            if (!foundChecked) {
-                allAnswered = false;
-                break;
-            }
-        }
-    }
-
+    const allAnswered = textContent.questions.every(q => answers[`q${q.id}`]);
     if (!allAnswered) {
         document.getElementById('result').innerHTML = "<p style='color:red;'>Bitte beantworten Sie alle Fragen.</p>";
-        updateIframeHeight(); // Update height even for error message
         return;
     }
-
-    const answers = {};
-    textContent.questions.forEach(question => {
-        answers[`q${question.id}`] = document.querySelector(`input[name="question${question.id}"]:checked`)?.value;
-    });
 
     let points = { saron: 0, kurz: 0, lang: 0, splitting: 0, beratung: 0 };
 
@@ -432,7 +367,60 @@ function calculateResult() {
         ausgewogen: { saron: 0, kurz: 1, lang: 1, splitting: 1 },
         risikofreudig: { saron: 3, kurz: 0, lang: -2, splitting: 0 }
     });
-    // ... (rest of your adjustPoints calls remain unchanged)
+    adjustPoints('q2', {
+        steigend: { saron: -3, kurz: 1, lang: 2 },
+        gleichbleibend: { saron: 1, kurz: 1, lang: 0, splitting: 1 },
+        fallend: { saron: 2, kurz: 0, lang: -3 }
+    });
+    adjustPoints('q3', {
+        klein: { saron: -1, kurz: 0, lang: 1, splitting: 1 },
+        mittel: { saron: 1, kurz: 0, lang: 0 },
+        gross: { saron: 2, kurz: 1, lang: -2, splitting: -1 }
+    });
+    adjustPoints('q4', {
+        stabil: { saron: 0, kurz: 1, lang: 2, beratung: -1 },
+        gut: { saron: 1, kurz: 1, lang: 0, splitting: 1 },
+        angespannt: { saron: 2, kurz: -1, lang: -2, beratung: 2, splitting: 1 }
+    });
+    adjustPoints('q5', {
+        flexibel: { saron: 3, kurz: -1, lang: -2, splitting: 1 },
+        ausgewogen2: { saron: 1, kurz: 1, lang: 0, splitting: 1 },
+        sicher2: { saron: -2, kurz: 1, lang: 3, splitting: -1 }
+    });
+    adjustPoints('q6', {
+        ja: { saron: 2, kurz: 0, lang: -1, splitting: 1 },
+        vielleicht: { saron: 1, kurz: 1, lang: 0 },
+        nein: { saron: -1, kurz: 0, lang: 1, beratung: 1, splitting: -1 }
+    });
+    adjustPoints('q7', {
+        kurz: { saron: 3, kurz: 1, lang: -2 },
+        mittel2: { saron: 1, kurz: 2, lang: 0, splitting: 1 },
+        lang: { saron: -2, kurz: 0, lang: 3, splitting: -1 }
+    });
+    adjustPoints('q8', {
+        ja2: { saron: 2, kurz: 0, lang: -1, beratung: -1 },
+        begrenzt: { saron: 1, kurz: 1, lang: 0, splitting: 1 },
+        nein2: { saron: -2, kurz: 0, lang: 1, beratung: 2, splitting: -1 }
+    });
+    adjustPoints('q9', {
+        aktiv: { saron: 3, kurz: -1, lang: -2, splitting: 1 },
+        passiv: { saron: 1, kurz: 1, lang: 0, splitting: 1 },
+        sehrPassiv: { saron: -2, kurz: 1, lang: 2, splitting: -1 }
+    });
+    adjustPoints('q10', {
+        ja3: { splitting: 3 },
+        nein3: { splitting: -3 },
+        unsicher: { beratung: 3 }
+    });
+    adjustPoints('q11', {
+        pensionJa: { kurz: 2, lang: 1, beratung: 2 },
+        pensionNein: { saron: 1, kurz: 0, lang: 0 },
+    });
+    adjustPoints('q12', {
+        tragbarKeinProblem: { saron: 3, kurz: 0, lang: -2, beratung: -2 },
+        tragbarAngespannt: { kurz: 1, lang: 1, beratung: 1, splitting: 1 },
+        tragbarNein: { saron: -3, kurz: 0, lang: 2, beratung: 3, splitting: -1 }
+    });
 
     const thresholdSaron = 7;
     const thresholdKurz = 5;
@@ -465,59 +453,20 @@ function calculateResult() {
         resultText = textContent.results.beratung;
     }
 
-    document.getElementById('result').innerHTML = `<div id="profile-summary">${profileSummary}</div>${resultText}`;
-    updateIframeHeight(); // Update height immediately after content change
-    setTimeout(updateIframeHeight, 500); // Fallback update after 500ms
-}
-
-// --- Improved Iframe Resizing Logic ---
-const cmsDomain = 'https://prod.unitycms.io/';
-
-function updateIframeHeight() {
-    const height = Math.max(
-        document.body.scrollHeight,
-        document.documentElement.scrollHeight,
-        document.body.offsetHeight,
-        document.documentElement.offsetHeight
-    );
-
-    console.log("Calculated height:", height);
-
-    if (window.parent && window.parent !== window) {
-        // Send height in multiple formats for compatibility
-        const messages = [
-            { type: 'resize', height: height },           // Your original format
-            { iframeHeight: height },                    // Alternative common format
-            { event: 'iframeResize', height: height },   // Another common format
-            height                                       // Plain number (some CMS expect this)
-        ];
-
-        messages.forEach(message => {
-            console.log("Sending message:", message);
-            window.parent.postMessage(message, cmsDomain);
-        });
-    } else {
-        console.warn("Not in an iframe - height not sent.");
-    }
+    const resultDiv = document.getElementById('result');
+    resultDiv.innerHTML = `<div id="profile-summary">${profileSummary}</div>${resultText}`;
+    document.getElementById('questionnaire').style.display = 'none'; // Hide questionnaire
+    document.getElementById('mainTitle').style.display = 'none'; // Hide title
 }
 
 // --- Initialization ---
 document.addEventListener('DOMContentLoaded', () => {
     console.log("DOMContentLoaded event fired");
-    try {
-        createQuestionnaire();
-        updateIframeHeight(); // Initial height update
-        setTimeout(updateIframeHeight, 500); // Fallback initial update
-    } catch (e) {
-        console.error("Error in createQuestionnaire:", e);
-        const questionnaireElement = document.getElementById('questionnaire');
-        if (questionnaireElement) {
-            questionnaireElement.innerHTML = "<p style='color:red;'>Fehler beim Laden der Fragen: " + e.message + "</p>";
-        }
-        updateIframeHeight(); // Update height even on error
-    }
-});
+    document.getElementById('mainTitle').innerText = textContent.mainTitle;
+    document.getElementById('introText1').innerText = textContent.introText1;
+    document.getElementById('introText2').innerText = textContent.introText2;
+    document.getElementById('disclaimerTitle').innerText = textContent.disclaimerTitle;
+    document.getElementById('disclaimerText').innerText = textContent.disclaimerText;
 
-window.addEventListener('load', () => {
-    updateIframeHeight(); // Update height after all resources load
+    displayCurrentQuestion(); // Start with the first question
 });
