@@ -1,0 +1,250 @@
+{
+    "title": "Hypothekar-Ratgeber",
+    "description": "Finden Sie die passende Finanzierungsstrategie...",
+    "locale": "de",
+    "pages": [
+        {
+            "name": "page1",
+            "elements": [
+                {
+                    "type": "radiogroup",
+                    "name": "q1",
+                    "title": "Wie schätzen Sie Ihre persönliche Risikobereitschaft bezüglich der Hypothekarfinanzierung ein?",
+                    "choices": [
+                        {
+                            "value": "sicher",
+                            "text": "Sehr sicherheitsorientiert (stabile, vorhersehbare Kosten sind mir wichtiger als potenziell tiefere Zinsen)"
+                        },
+                        {
+                            "value": "ausgewogen",
+                            "text": "Ausgewogen (ich suche eine Balance zwischen Stabilität und Kostenoptimierung)"
+                        },
+                        {
+                            "value": "risikofreudig",
+                            "text": "Risikofreudig (ich bin bereit, Zinsschwankungen in Kauf zu nehmen, um von potenziell tieferen Kosten zu profitieren)"
+                        }
+                    ],
+                    "isRequired": true
+                },
+                {
+                    "type": "radiogroup",
+                    "name": "q2",
+                    "title": "Wie schätzen Sie persönlich die Zinsentwicklung in den nächsten 3–5 Jahren ein?",
+                    "choices": [
+                        {
+                            "value": "steigend",
+                            "text": "Steigend (ich erwarte, dass die Hypothekarzinsen tendenziell steigen werden)"
+                        },
+                        {
+                            "value": "gleichbleibend",
+                            "text": "Gleichbleibend (ich erwarte keine wesentlichen Veränderungen des aktuellen Zinsniveaus)"
+                        },
+                        {
+                            "value": "fallend",
+                            "text": "Fallend (ich erwarte, dass die Hypothekarzinsen tendenziell sinken werden)"
+                        }
+                    ],
+                    "isRequired": true
+                },
+                {
+                    "type": "radiogroup",
+                    "name": "q3",
+                    "title": "Wie beurteilen Sie den aktuellen Zinsabstand zwischen einer 2-jährigen und einer 10-jährigen Festhypothek?",
+                    "choices": [
+                        {
+                            "value": "klein",
+                            "text": "Gering (weniger als 0,4 Prozentpunkte Unterschied)"
+                        },
+                        {
+                            "value": "mittel",
+                            "text": "Mittel (zwischen 0,4 und 0,8 Prozentpunkte Unterschied)"
+                        },
+                        {
+                            "value": "gross",
+                            "text": "Hoch (mehr als 0,8 Prozentpunkte Unterschied)"
+                        }
+                    ],
+                    "isRequired": true
+                },
+                {
+                    "type": "radiogroup",
+                    "name": "q4",
+                    "title": "Wie beurteilen Sie die langfristige Stabilität Ihrer finanziellen Situation in den nächsten 10 Jahren (Einkommen, berufliche Perspektiven, Vermögensentwicklung)?",
+                    "choices": [
+                        {
+                            "value": "stabil",
+                            "text": "Sehr stabil und sicher (gesicherte Einkommenssituation, positive Vermögensentwicklung)"
+                        },
+                        {
+                            "value": "gut",
+                            "text": "Grundsätzlich stabil mit leichten Unsicherheiten (z.B. möglicher Stellenwechsel, Teilzeitarbeit)"
+                        },
+                        {
+                            "value": "angespannt",
+                            "text": "Mit erheblichen Unsicherheiten verbunden (z.B. befristete Anstellung, selbständige Tätigkeit, geplante grössere Ausgaben)"
+                        }
+                    ],
+                    "isRequired": true
+                },
+                {
+                    "type": "radiogroup",
+                    "name": "q5",
+                    "title": "Wie wichtig ist Ihnen Flexibilität im Vergleich zu Planungssicherheit?",
+                    "choices": [
+                        {
+                            "value": "flexibel",
+                            "text": "Flexibilität ist sehr wichtig"
+                        },
+                        {
+                            "value": "ausgewogen2",
+                            "text": "Ein ausgewogenes Verhältnis ist ideal"
+                        },
+                        {
+                            "value": "sicher2",
+                            "text": "Planungssicherheit hat oberste Priorität"
+                        }
+                    ],
+                    "isRequired": true
+                },
+                {
+                    "type": "radiogroup",
+                    "name": "q6",
+                    "title": "Sind Sie bereit, regelmässig Hypothekarofferten zu vergleichen?",
+                    "choices": [
+                        {
+                            "value": "ja",
+                            "text": "Ja, unbedingt"
+                        },
+                        {
+                            "value": "nein",
+                            "text": "Eher nicht"
+                        },
+                        {
+                            "value": "vielleicht",
+                            "text": "Vielleicht gelegentlich"
+                        }
+                    ],
+                    "isRequired": true
+                },
+                {
+                    "type": "radiogroup",
+                    "name": "q7",
+                    "title": "Wie lange planen Sie, das Wohneigentum zu besitzen?",
+                    "choices": [
+                        {
+                            "value": "kurz",
+                            "text": "Kurzfristig (weniger als 5 Jahre)"
+                        },
+                        {
+                            "value": "mittel2",
+                            "text": "Mittelfristig (5-10 Jahre)"
+                        },
+                        {
+                            "value": "lang",
+                            "text": "Langfristig (mehr als 10 Jahre)"
+                        }
+                    ],
+                    "isRequired": true
+                },
+                {
+                    "type": "radiogroup",
+                    "name": "q8",
+                    "title": "Verfügen Sie über ausreichende, kurzfristig verfügbare finanzielle Reserven (Sparkonten, Wertschriften), um einen Zinsanstieg von 2% über mehrere Jahre oder unvorhergesehene Ausgaben zu bewältigen?",
+                    "choices": [
+                        {
+                            "value": "ja2",
+                            "text": "Ja, umfangreiche Reserven (mehr als 12 Monatshypothekarzinsen)"
+                        },
+                        {
+                            "value": "begrenzt",
+                            "text": "Begrenzte Reserven (etwa 6-12 Monatshypothekarzinsen)"
+                        },
+                        {
+                            "value": "nein2",
+                            "text": "Kaum Reserven (weniger als 6 Monatshypothekarzinsen)"
+                        }
+                    ],
+                    "isRequired": true
+                },
+                {
+                    "type": "radiogroup",
+                    "name": "q9",
+                    "title": "Wie aktiv möchten Sie Ihre Hypothekarfinanzierung verwalten?",
+                    "choices": [
+                        {
+                            "value": "aktiv",
+                            "text": "Sehr aktiv (ich verfolge regelmässig die Zinsentwicklung und bin bereit, meine Strategie entsprechend anzupassen)"
+                        },
+                        {
+                            "value": "passiv",
+                            "text": "Mässig aktiv (ich informiere mich gelegentlich, möchte aber keine ständigen Anpassungen vornehmen)"
+                        },
+                        {
+                            "value": "sehrPassiv",
+                            "text": "Passiv (ich möchte eine langfristige Lösung mit minimalem Verwaltungsaufwand)"
+                        }
+                    ],
+                    "isRequired": true
+                },
+                {
+                    "type": "radiogroup",
+                    "name": "q10",
+                    "title": "Sind Sie offen für ein Hypotheken-Splitting (Aufteilung in mehrere Tranchen)?",
+                    "choices": [
+                        {
+                            "value": "ja3",
+                            "text": "Ja, das ist eine Option"
+                        },
+                        {
+                            "value": "nein3",
+                            "text": "Nein, lieber alles in einer Tranche"
+                        },
+                        {
+                            "value": "unsicher",
+                            "text": "Ich bin mir unsicher"
+                        }
+                    ],
+                    "isRequired": true
+                },
+                {
+                    "type": "radiogroup",
+                    "name": "q11",
+                    "title": "Steht Ihre Pensionierung in den nächsten 10 Jahren bevor?",
+                    "choices": [
+                        {
+                            "value": "pensionJa",
+                            "text": "Ja"
+                        },
+                        {
+                            "value": "pensionNein",
+                            "text": "Nein"
+                        }
+                    ],
+                    "isRequired": true
+                },
+                {
+                    "type": "radiogroup",
+                    "name": "q12",
+                    "title": "Wie würde sich ein Zinsanstieg um 2 Prozentpunkte auf Ihre finanzielle Tragbarkeit auswirken (beachten Sie: die Tragbarkeitsgrenze liegt bei max. einem Drittel des Bruttoeinkommens für Wohnkosten)?",
+                    "choices": [
+                        {
+                            "value": "tragbarKeinProblem",
+                            "text": "Unproblematisch (die Tragbarkeit wäre weiterhin deutlich unter der 33%-Grenze)"
+                        },
+                        {
+                            "value": "tragbarAngespannt",
+                            "text": "Grenzwertig (die Tragbarkeit würde sich der 33%-Grenze nähern oder leicht überschreiten)"
+                        },
+                        {
+                            "value": "tragbarNein",
+                            "text": "Kritisch (die Tragbarkeit würde deutlich über der 33%-Grenze liegen)"
+                        }
+                    ],
+                    "isRequired": true
+                }
+            ]
+        }
+    ],
+    "completedHtml": "<div id='result'></div>",
+    "showQuestionNumbers": "off"
+}

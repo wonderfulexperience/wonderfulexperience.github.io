@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hypotheken-Ratgeber (SurveyJS)</title>
+
+
+    <link href="js/surveyjs/survey-core.min.css" rel="stylesheet" />
+    <script type="text/javascript" src="js/surveyjs/survey.core.min.js"></script>
+    <script type="text/javascript" src="js/surveyjs/survey.i18n.min.js"></script>
+
+    <!-- Correct way to include a THEME in SurveyJS 2.x -->
+    <script type="text/javascript" src="js/surveyjs/themes/index.js"></script>
+
+
+    <style>
+        /* Basic Styling (You can customize this) */
+        body { font-family: Arial, sans-serif; line-height: 1.6; }
+        h1, h2, h3 { color: #003366; }
+        .container { max-width: 800px; margin: auto; }
+        #result { margin-top: 20px; padding: 15px; border: 1px solid #ddd; border-radius: 4px; }
+
+        /*  You *can* still add custom styles here, but it's generally
+            better to customize the theme itself if possible. */
+
+        .disclaimer { margin-top: 20px; font-size: 0.9em; color: #666; border-top: 1px solid #eee; padding-top: 10px; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Hypothekar-Ratgeber</h1>
+    <p>Wir unterstützen Sie, die passende Hypothekarstrategie zu finden.</p>
+    <p>Dieser Fragebogen dient als erste Orientierung.</p>
+
+    <!--  Add visible border and background for debugging -->
+    <div id="surveyElement" style="border: 2px solid blue; padding: 10px; background-color: #f0f8ff;">
+        Loading Survey...
+    </div>
+
+    <div id="result" style="border: 2px solid green; padding: 10px; background-color: #f0fff0; display: none;">
+        Result will appear here.
+    </div>
+
+    <div class="disclaimer">
+        <strong>Hinweis:</strong> Dieser Fragebogen dient der Orientierung und stellt keine Beratung dar.
+    </div>
+</div>
+<script type="text/javascript">
+
+    // *** MINIMAL SURVEY FOR DEBUGGING ***
+     const surveyJson = {
+        pages: [
+            {
+                elements: [
+                    {
+                        type: "radiogroup",
+                        name: "test_question", // MUST have a name
+                        title: "Test Question",
+                        choices: ["Yes", "No"],
+                        isRequired: true
+                    }
+                ]
+            }
+        ]
+    };
+
+    /* // *** FULL SURVEY JSON (Comment out when using minimal survey) ***
+     const surveyJson = {
+        title: "Hypothekar-Ratgeber",
+        description: "Finden Sie die passende Finanzierungsstrategie...",
+        locale: "de",
+        pages: [
+            {
+                name: "page1",
+                elements: [
+                     {
+                        type: "radiogroup",
+                        name: "q1",
+                        title: "Wie schätzen Sie Ihre persönliche Risikobereitschaft bezüglich der Hypothekarfinanzierung ein?",
+                        choices: [
+                            { value: "sicher", text: "Sehr sicherheitsorientiert" },
+                            { value: "ausgewogen", text: "Ausgewogen" },
+                            { value: "risikofreudig", text: "Risikofreudig" },
+                        ],
+                        isRequired: true
+                    },
+                    {
+                        type: "radiogroup",
+                        name: "q2",
+                        title: "Wie schätzen Sie persönlich die Zinsentwicklung in den nächsten 3–5 Jahren ein?",
+                        choices: [
+                            { value: "steigend", text: "Steigend" },
+                            { value: "gleichbleibend", text: "Gleichbleibend" },
+                            { value: "fallend", text: "Fallend" },
+                        ],
+                        isRequired: true
+                    },
+                    {
+                        type: "radiogroup",
+                        name: "q3",
+                        title: "Wie beurteilen Sie den aktuellen Zinsabstand zwischen einer 2-jährigen und einer 10-jährigen Festhypothek?",
+                        choices: [
+                            { value: "klein", text: "Gering" },
+                            { value: "mittel", text: "Mittel" },
+                            { value: "gross", text: "Hoch" },
+                        ],
+                        isRequired: true
+                    },
+                    {
+                        type: "radiogroup",
+                        name: "q4",
+                        title: "Wie beurteilen Sie die langfristige Stabilität Ihrer finanziellen Situation in den nächsten 10 Jahren?",
+                        choices: [
+                            { value: "stabil", text: "Sehr stabil und sicher" },
+                            { value: "gut", text: "Grundsätzlich stabil" },
+                            { value: "angespannt", text: "Mit Unsicherheiten verbunden" },
+                        ],
+                        isRequired: true
+                    },
+                    {
+                        type: "radiogroup",
+                        name: "q5",
+                        title: "Wie wichtig ist Ihnen Flexibilität im Vergleich zu Planungssicherheit?",
+                        choices: [
+                            { value: "flexibel", text: "Flexibilität ist sehr wichtig" },
+                            { value: "ausgewogen2", text: "Ein ausgewogenes Verhältnis ist ideal" },
+                            { value: "sicher2", text: "Planungssicherheit hat oberste Priorität" },
+                        ],
+                        isRequired: true
+                    },
+                     {
+                        type: "radiogroup",
+                        name: "q6",
+                        title: "Sind Sie bereit, regelmässig Hypothekarofferten zu vergleichen?",
+                        choices: [
+                            { value: "ja", text: "Ja, unbedingt" },
+                            { value: "nein", text: "Eher nicht" },
+                            { value: "vielleicht", text: "Vielleicht gelegentlich" },
+                        ],
+                        isRequired: true
+                    },
+                    {
+                        type: "radiogroup",
+                        name: "q7",
+                        title: "Wie lange planen Sie, das Wohneigentum zu besitzen?",
+                        choices: [
+                            { value: "kurz", text: "Kurzfristig" },
+                            { value: "mittel2", text: "Mittelfristig" },
+                            { value: "lang", text: "Langfristig" },
+                        ],
+                        isRequired: true
+                    },
+                    {
+                        type: "radiogroup",
+                        name: "q8",
+                        title: "Verfügen Sie über ausreichende Reserven, um einen Zinsanstieg von 2% zu bewältigen?",
+                        choices: [
+                            { value: "ja2", text: "Ja, umfangreiche Reserven" },
+                            { value: "begrenzt", text: "Begrenzte Reserven" },
+                            { value: "nein2", text: "Kaum Reserven" },
+                        ],
+                        isRequired: true
+                    },
+                    {
+                        type: "radiogroup",
+                        name: "q9",
+                        title: "Wie aktiv möchten Sie Ihre Hypothekarfinanzierung verwalten?",
+                        choices: [
+                            { value: "aktiv", text: "Sehr aktiv" },
+                            { value: "passiv", text: "Mässig aktiv" },
+                            { value: "sehrPassiv", text: "Passiv" },
+                        ],
+                        isRequired: true
+                    },
+                    {
+                        type: "radiogroup",
+                        name: "q10",
+                        title: "Sind Sie offen für ein Hypotheken-Splitting?",
+                        choices: [
+                            { value: "ja3", text: "Ja, das ist eine Option" },
+                            { value: "nein3", text: "Nein, lieber alles in einer Tranche" },
+                            { value: "unsicher", text: "Ich bin mir unsicher" },
+                        ],
+                        isRequired: true
+                    },
+                    {
+                        type: "radiogroup",
+                        name: "q11",
+                        title: "Steht Ihre Pensionierung in den nächsten 10 Jahren bevor?",
+                        choices: [
+                            { value: "pensionJa", text: "Ja" },
+                            { value: "pensionNein", text: "Nein" }
+                        ],
+                        isRequired: true
+                    },
+                    {
+                        type: "radiogroup",
+                        name: "q12",
+                        title: "Wie würde sich ein Zinsanstieg um 2 Prozentpunkte auf Ihre finanzielle Tragbarkeit auswirken?",
+                        choices: [
+                            { value: "tragbarKeinProblem", text: "Unproblematisch" },
+                            { value: "tragbarAngespannt", text: "Grenzwertig" },
+                            { value: "tragbarNein", text: "Kritisch" },
+                        ],
+                        isRequired: true
+                    }
+                ]
+            }
+        ],
+        completedHtml: "<div id='result'></div>",
+        showQuestionNumbers: "off",
+    };
+    */
+
+
+
+    // Create the SurveyJS model
+    const survey = new Survey.Model(surveyJson);
+
+    // *** APPLY THE THEME (IMPORTANT for SurveyJS 2.x) ***
+    survey.applyTheme(SurveyTheme.defaultV2); // Use the defaultV2 theme.
+    // OR, to use a different theme (e.g., "modern"):
+    // survey.applyTheme(SurveyTheme.modern);
+
+    // 3. Render the survey
+    survey.render("surveyElement");
+    console.log("survey.render() called"); // This should ALWAYS appear
+
+    // 4. Handle the completion (result calculation)
+    survey.onComplete.add(function (sender) {
+        const answers = sender.data; // Get all answers
+        console.log("Answers:", answers); // Log the answers
+
+        let resultText = "";
+
+         // SARON-Hypothek
+          if (
+            (answers.q1 === "risikofreudig" || answers.q1 === "ausgewogen") &&
+            (answers.q2 !== "steigend" || answers.q9 === "aktiv") &&
+            answers.q12 === "tragbarKeinProblem"
+        ) {
+            console.log("Saron condition met"); // Check if this condition is reached
+            resultText += "<h2>Empfehlung: Saron-Hypothek</h2>";
+            resultText += "<p>Eine Saron-Hypothek könnte für Sie die richtige Wahl sein.</p>";
+            resultText += "<p><strong>Aktuelle Marktsituation (März 2025):</strong></p>";
+            resultText += "<p>Saron-Hypotheken werden aktuell zu Konditionen ab ca. [aktuellen Wert einfügen]% angeboten.</p>";
+            resultText += "<p><strong>Vorteile:</strong></p><ul><li>Potenziell tiefere Zinskosten.</li><li>Hohe Flexibilität.</li> <li>Transparenz.</li></ul>";
+            resultText += "<p><strong>Nachteile:</strong></p><ul><li>Zinsrisiko.</li><li>Erfordert finanzielle Reserven.</li></ul>";
+            resultText += "<p><strong>Für wen geeignet:</strong></p><ul><li>Wohneigentümer, die ein gewisses Zinsrisiko eingehen können.</li><li>Personen mit einer soliden finanziellen Situation.</li></ul></p>";
+             resultText += "<p><strong>Zusätzliche Überlegungen:</strong></p>";
+            resultText += "<ul>";
+            resultText += "<li>Prüfen Sie die Möglichkeit eines «Caps».</li>";
+            resultText += "<li>Vergleichen Sie die Konditionen verschiedener Anbieter.</li>";
+            resultText += "<li>Überlegen Sie, ob eine 3-, 6- oder 12-monatliche Zinsanpassungsperiode für Sie optimal ist.</li>";
+            resultText += "<li>Die Tragbarkeitsberechnung der Bank berücksichtigt in der Regel einen Kalkulationszinssatz von 4,5–5%, nicht den aktuellen Zinssatz.</li>";
+            resultText += "</ul></p>";
+        }
+        // Kurzfristige Festhypothek
+        else if (
+          (answers.q1 === "sicher" || answers.q1 === "ausgewogen") &&
+          (answers.q7 === "kurz" || answers.q7 === "mittel2") &&
+          (answers.q5 === "ausgewogen2" || answers.q5 === "sicher2")
+        ) {
+            console.log("Kurzfrist condition met");
+            resultText += "<h2>Empfehlung: Kurz- bis mittelfristige Festhypothek (2–5 Jahre)</h2>";
+            resultText += "<p>Eine Festhypothek mit einer Laufzeit von 2 bis 5 Jahren bietet Ihnen einen ausgewogenen Kompromiss zwischen Planungssicherheit und Flexibilität.</p>";
+            resultText += "<p><strong>Aktuelle Marktsituation (März 2025):</strong></p><p>Konditionen ab ca. [aktuellen Wert einfügen]%.</p>";
+             resultText += "<p><strong>Vorteile:</strong></p><ul><li>Fester Zinssatz.</li><li>Geringeres Zinsänderungsrisiko.</li><li>Nach Ablauf der Laufzeit können Sie neu verhandeln.</li></ul>";
+            resultText += "<p><strong>Nachteile:</strong></p><ul><li>Potenziell höhere Zinskosten als bei Saron.</li><li>Weniger Flexibilität als bei Saron.</li></ul>";
+             resultText += "<p><strong>Für wen geeignet:</strong></p><ul><li>Wohneigentümer mit Planungssicherheit.</li><li>Flexibilität nach Ablauf.</li></ul></p>";
+            resultText += "<p><strong>Zusätzliche Überlegungen:</strong></p>";
+            resultText += "<ul>";
+            resultText += "<li>Achten Sie auf den Ablauf Ihrer Hypothek.</li><li>Prüfen Sie Forward-Hypotheken.</li><li>Tragbarkeit: Kalkulationszinssatz von 4,5–5%.</li><li>Steuerliche Aspekte: Die Hypothekarzinsen sind abziehbar.</li>";
+            resultText += "</ul></p>";
+        }
+        // Langfristige Festhypothek
+        else if (
+            (answers.q1 === "sicher") &&
+            (answers.q7 === "lang") &&
+            (answers.q9 === "sehrPassiv" || answers.q9 === "passiv")
+        ) {
+            console.log("Langfrist condition met");
+            resultText += "<h2>Empfehlung: Langfristige Festhypothek (10+ Jahre)</h2>";
+            resultText += "<p>Eine langfristige Festhypothek bietet Ihnen maximale Planungssicherheit.</p>";
+            resultText += "<p><strong>Aktuelle Marktsituation (März 2025):</strong></p><p>Konditionen ab ca. [aktuellen Wert einfügen]%.</p>";
+            resultText += "<p><strong>Vorteile:</strong></p><ul><li>Konstante Raten.</li><li>Kein Zinsänderungsrisiko.</li><li>Ideal für langfristige Planung.</li></ul>";
+             resultText += "<p><strong>Nachteile:</strong></p><ul><li>Potenziell höhere Kosten.</li><li>Geringe Flexibilität.</li></ul>";
+            resultText += "<p><strong>Für wen geeignet:</strong></p><ul><li>Sicherheitsorientierte Wohneigentümer.</li><li>Maximale Planbarkeit.</li></ul></p>";
+           resultText += "<p><strong>Zusätzliche Überlegungen:</strong></p><ul><li>Vorzeitige Auflösung: Vorfälligkeitsentschädigung.</li><li>Amortisation: indirekte Amortisation prüfen.</li><li>Sechs Monate vor Ablauf die Konditionen prüfen.</li></ul>";
+
+        }
+        // Splitting
+        else if (answers.q10 === "ja3" || answers.q10 === "unsicher")
+        {
+            console.log("Splitting condition met");
+            resultText += "<h2>Empfehlung: Hypotheken-Splitting</h2>";
+            resultText += "<p>Das Hypotheken-Splitting (Aufteilung in mehrere Tranchen) bietet eine ausgewogene Risikodiversifikation.</p>";
+            resultText += "<p><strong>Optimiertes Beispiel-Splitting:</strong></p><ul><li>40% Saron-Hypothek</li><li>30% mittelfristige Festhypothek (5 Jahre)</li><li>30% langfristige Festhypothek (10 Jahre)</li></ul>";
+            resultText += "<p><strong>Vorteile:</strong></p><ul><li>Diversifikation des Zinsrisikos.</li><li>Kombination verschiedener Hypothekenarten.</li></ul>";
+            resultText += "<p><strong>Nachteile:</strong></p><ul><li>Kann komplexer sein.</li><li>Kann Flexibilität einschränken.</li></ul>";
+            resultText += "<p><strong>Für wen geeignet:</strong></p><ul><li>Risikostreuung.</li><li>Mehrere Optionen.</li></ul></p>";
+            resultText += "<p><strong>Empfehlungen:</strong></p><ul><li>Ablaufdaten verteilen.</li><li>Kleine Tranchen vermeiden (< 100'000 Fr.).</li><li>Maximal 50% in einer Tranche.</li><li>Strategie jährlich überprüfen.</li></ul></p>";
+        }
+        // Individuelle Beratung
+        else {
+            console.log("Beratung condition met");
+            resultText += "<h2>Individuelle Beratung empfohlen</h2>";
+            resultText += "<p>Eine massgeschneiderte Beratung für Ihre Situation ist empfehlenswert.</p>";
+            resultText += "<p><strong>Nächste Schritte:</strong></p>";
+            resultText += "<ul><li>Offerten einholen.</li>";
+            resultText += "<li>Unterlagen vorbereiten: Lohnausweise, Steuererklärung, Betreibungsregisterauszug, Grundbuchauszug, Hypothekarverträge, Vermögenswerte.</li>";
+            resultText += "<li>Im Gespräch klären: Zinssätze, Zinsentwicklung, Amortisation, Steuern, Eigenkapital.</li></ul></p>";
+        }
+
+        document.getElementById('result').innerHTML = resultText;
+        document.getElementById('result').style.display = 'block'; // Show results
+    });
+
+    </script>
+</body>
+</html>
