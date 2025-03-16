@@ -1,8 +1,10 @@
 <!DOCTYPE html>
-<html>
+<html lang="de">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hypotheken-Ratgeber (SurveyJS)</title>
-    <link href="https://unpkg.com/survey-core@1.10.4/defaultV2.css" type="text/css" rel="stylesheet">
+    <link href="https://unpkg.com/survey-core/defaultV2.min.css" type="text/css" rel="stylesheet">
     <script type="text/javascript" src="https://unpkg.com/survey-core/survey.core.min.js"></script>
     <style>
         /* Basic Styling (You can customize this) */
@@ -44,28 +46,38 @@
      <p>Wir unterstützen Sie dabei, die für Ihre persönliche Situation optimale Hypothekarstrategie zu ermitteln. Beantworten Sie die nachfolgenden Fragen sorgfältig – je präziser Ihre Angaben, desto zielgerichteter unsere Empfehlung.</p>
     <p>Dieser Fragebogen dient als erste Orientierungshilfe und ersetzt keine persönliche Beratung.</p>
 
-    <div id="surveyElement"></div>
+    <!-- Add a visible border and background to surveyElement for debugging -->
+    <div id="surveyElement" style="border: 2px solid blue; padding: 10px; background-color: #f0f8ff;">
+        Loading Survey... (If you see this for more than a few seconds, there's a problem)
+    </div>
 
-    <div id="result"></div>
+    <div id="result" style="border: 2px solid green; padding: 10px; background-color: #f0fff0; display: none;">
+        Result will appear here.
+    </div>
 
       <div class="disclaimer">
         <strong>Hinweis:</strong> Dieser Fragebogen dient ausschliesslich der ersten Orientierung und stellt keine Finanz- oder Anlageberatung dar. Die Resultate sind unverbindlich und basieren auf Ihren Angaben. Für eine umfassende und individuelle Beratung empfehlen wir Ihnen, sich an einen qualifizierten Hypothekarberater zu wenden.
     </div>
 </div>
     <script type="text/javascript">
-        // 1. Define the survey in JSON
+
+        // *** DEBUGGING STEP 1:  Basic Alert ***
+        // alert("JavaScript is running!"); // Uncomment this to check if *any* JavaScript is running.
+
+        // *** DEBUGGING STEP 2: Minimal Survey ***
+        // Start with a *very* simple survey to make sure SurveyJS is loading and rendering.
         const surveyJson = {
             title: "Hypothekar-Ratgeber",
             description: "Finden Sie die passende Finanzierungsstrategie...",
-            locale: "de", // Use German localization
+            locale: "de",
             pages: [
                 {
                     name: "page1",
                     elements: [
                         {
                             type: "radiogroup",
-                            name: "q1",
-                            title: "Wie schätzen Sie Ihre persönliche Risikobereitschaft bezüglich der Hypothekarfinanzierung ein?",
+                            name: "q1",  // Keep a name, even for the test question
+                            title: "Wie schätzen Sie Ihre persönliche Risikobereitschaft bezüglich der Hypothekarfinanzierung ein?", //Test question
                             choices: [
                                 { value: "sicher", text: "Sehr sicherheitsorientiert (stabile, vorhersehbare Kosten sind mir wichtiger als potenziell tiefere Zinsen)" },
                                 { value: "ausgewogen", text: "Ausgewogen (ich suche eine Balance zwischen Stabilität und Kostenoptimierung)" },
@@ -203,14 +215,25 @@
         // 2. Create the SurveyJS model
         const survey = new Survey.Model(surveyJson);
 
+        // *** DEBUGGING STEP 3: Check Survey Object ***
+        // console.log("Survey object:", survey); // Uncomment to inspect the created survey object.
+
         // 3. Render the survey
         survey.render("surveyElement");
-
+        // *** DEBUGGING STEP 4: Check Render Call ***
+        console.log("survey.render() called"); // See if this line is reached
 
         // 4. Handle the completion (result calculation)
+       // *** DEBUGGING STEP 5: Simplified onComplete ***
         survey.onComplete.add(function (sender) {
             const answers = sender.data; // Get all answers
+            console.log("Answers:", answers); // Log the answers
+
             let resultText = "";
+
+            // *** DEBUGGING STEP 6:  Check Individual Answers ***
+            // console.log("q1:", answers.q1);
+            // console.log("q2:", answers.q2); // ... and so on for other questions
 
            // SARON-Hypothek
             if (
@@ -218,6 +241,7 @@
                 (answers.q2 !== "steigend" || answers.q9 === "aktiv") &&
                 answers.q12 === "tragbarKeinProblem"
             ) {
+                console.log("Saron condition met"); // Check if this condition is reached
                 resultText += "<h2>Empfehlung: Saron-Hypothek</h2>";
                 resultText += "<p>Eine Saron-Hypothek (Geldmarkthypothek) könnte für Sie die richtige Wahl sein. Diese variable Hypothekarform basiert auf dem Swiss Average Rate Overnight (Saron), dem führenden Referenzzinssatz für den Schweizer Franken-Geldmarkt. Die Zinsen werden in der Regel alle 3, 6 oder 12 Monate an den aktuellen Saron-Satz angepasst.</p>";
                 resultText += "<p><strong>Aktuelle Marktsituation (März 2025):</strong></p>";
@@ -253,6 +277,7 @@
               (answers.q7 === "kurz" || answers.q7 === "mittel2") &&
               (answers.q5 === "ausgewogen2" || answers.q5 === "sicher2")
             ) {
+                console.log("Kurzfrist condition met");
                 resultText += "<h2>Empfehlung: Kurz- bis mittelfristige Festhypothek (2–5 Jahre)</h2>";
                 resultText += "<p>Eine Festhypothek mit einer Laufzeit von 2 bis 5 Jahren bietet Ihnen einen ausgewogenen Kompromiss zwischen Planungssicherheit und Flexibilität. Sie sichern sich einen fixen Zinssatz für die gewählte Laufzeit und sind gleichzeitig in der Lage, mittelfristig auf Veränderungen am Zinsmarkt zu reagieren.</p>";
                 resultText += "<p><strong>Aktuelle Marktsituation (März 2025):</strong></p>";
@@ -288,6 +313,7 @@
                 (answers.q7 === "lang") &&
                 (answers.q9 === "sehrPassiv" || answers.q9 === "passiv")
             ) {
+                console.log("Langfrist condition met");
                 resultText += "<h2>Empfehlung: Langfristige Festhypothek (10+ Jahre)</h2>";
                 resultText += "<p>Eine langfristige Festhypothek (10, 15 oder sogar bis zu 25 Jahre) bietet Ihnen maximale Planungssicherheit. Sie fixieren den aktuellen Zinssatz für die gesamte Laufzeit und schützen sich vollständig vor Zinserhöhungen.</p>";
                 resultText += "<p><strong>Aktuelle Marktsituation (März 2025):</strong></p>";
@@ -321,6 +347,7 @@
             // Splitting
             else if (answers.q10 === "ja3" || answers.q10 === "unsicher")
             {
+                console.log("Splitting condition met");
                 resultText += "<h2>Empfehlung: Hypotheken-Splitting</h2>";
                 resultText += "<p>Das Hypotheken-Splitting (die Aufteilung Ihrer Hypothek in mehrere Tranchen mit verschiedenen Laufzeiten und/oder Hypothekarmodellen) bietet eine ausgewogene Risikodiversifikation. Damit können Sie sowohl von der Planungssicherheit längerfristiger Hypotheken als auch von der Flexibilität kurzfristiger Varianten profitieren.</p>";
                 resultText += "<p><strong>Optimiertes Beispiel-Splitting:</strong></p>";
@@ -354,7 +381,8 @@
             }
             // Individuelle Beratung
             else {
-               resultText += "<h2>Individuelle Beratung empfohlen</h2>";
+                console.log("Beratung condition met");
+                resultText += "<h2>Individuelle Beratung empfohlen</h2>";
                 resultText += "<p>Basierend auf Ihren Antworten ist eine massgeschneiderte Beratung für Ihre spezifische Situation empfehlenswert. Die Komplexität Ihrer Ausgangslage erfordert eine detailliertere Analyse durch Fachpersonen.</p>";
                 resultText += "<p><strong>Nächste Schritte für Sie:</strong></p>";
                 resultText += "<ul>";
