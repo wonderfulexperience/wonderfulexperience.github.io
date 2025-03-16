@@ -4,9 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hypotheken-Ratgeber</title>
-    <!-- Include SurveyJS Core -->
-    <script src="https://unpkg.com/survey-core@2.0.0/survey.core.min.js"></script>
-    <link href="https://unpkg.com/survey-core@2.0.0/defaultV2.min.css" rel="stylesheet">
+    <!-- Include jQuery (required for survey-jquery) -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Include SurveyJS Core and jQuery Implementation -->
+    <script src="https://unpkg.com/survey-core@1.9.94/survey.core.min.js"></script>
+    <script src="https://unpkg.com/survey-jquery@1.9.94/survey.jquery.min.js"></script>
+    <!-- Include Default V2 Theme -->
+    <link href="https://unpkg.com/survey-core@1.9.94/defaultV2.min.css" rel="stylesheet">
     <style>
         /* General Body Styles */
         body {
@@ -217,7 +221,7 @@
     </div>
 
     <script>
-        // Define text content (same as before)
+        // Define text content (same as before, truncated for brevity)
         const textContent = {
             mainTitle: "Hypotheken-Finder: Welche Finanzierungsstrategie passt zu Ihnen?",
             introText1: "Mit diesem Fragebogen finden Sie die für Ihre Situation passende Hypothekenlösung. Je sorgfältiger Ihre Antworten, desto präziser wird unsere Empfehlung auf Ihre persönlichen Bedürfnisse zugeschnitten sein.",
@@ -235,7 +239,7 @@
                     ],
                     info: "Ihre Risikoneigung ist entscheidend: Bei niedriger Risikobereitschaft empfiehlt sich eine Festhypothek mit stabilen, planbaren Zinsen. Bei höherer Risikobereitschaft kann eine variable Hypothek (z.B. Saron) sinnvoll sein, die bei niedrigen Marktzinsen Vorteile bietet, aber auch zu steigenden Kosten führen kann, wenn die Zinsen anziehen."
                 },
-                // ... (rest of your questions remain the same)
+                // ... (include the rest of your questions here)
             ],
             results: {
                 saron: `...`, // (keep your results as they are)
@@ -276,11 +280,12 @@
             showQuestionNumbers: "off"
         };
 
+        // Initialize Survey with jQuery
         const survey = new Survey.Model(surveyJson);
         survey.locale = "de"; // Set to German
 
-        // Render the survey
-        survey.render("surveyElement");
+        // Render the survey using jQuery
+        $("#surveyElement").Survey({ model: survey });
 
         // Add custom button for result calculation
         const calculateButton = document.createElement("button");
@@ -319,7 +324,7 @@
                 gleichbleibend: { saron: 1, kurz: 1, lang: 0, splitting: 1 },
                 fallend: { saron: 2, kurz: 0, lang: -3 }
             });
-            // ... (rest of your adjustPoints logic remains the same)
+            // ... (include the rest of your adjustPoints logic here)
 
             const thresholdSaron = 7;
             const thresholdKurz = 5;
