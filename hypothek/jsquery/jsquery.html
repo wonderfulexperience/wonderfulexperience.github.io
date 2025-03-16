@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hypotheken-Ratgeber (SurveyJS)</title>
+    <link href="defaultV2.min.css" type="text/css" rel="stylesheet">
+    <script type="text/javascript" src="survey.core.min.js"></script>
+    <style>
+        /* Basic Styling (You can customize this) */
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+        }
+        h1, h2, h3 {
+            color: #003366; /* Dunkelblau */
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+        }
+        #result {
+            margin-top: 20px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .sv-string-viewer, .sv-selectbase__label, .sv-question__title, .sv-panel__title, .sv-item__control-label, .sv-boolean__label, .sv-rating__item-text{
+            color: #003366 !important;
+             font-weight: bold !important;
+        }
+
+        .disclaimer {
+            margin-top: 20px;
+            font-size: 0.9em;
+            color: #666;
+            border-top: 1px solid #eee;
+            padding-top: 10px;
+        }
+
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Hypothekar-Ratgeber: Die passende Finanzierungsstrategie für Ihr Eigenheim</h1>
+     <p>Wir unterstützen Sie dabei, die für Ihre persönliche Situation optimale Hypothekarstrategie zu ermitteln. Beantworten Sie die nachfolgenden Fragen sorgfältig – je präziser Ihre Angaben, desto zielgerichteter unsere Empfehlung.</p>
+    <p>Dieser Fragebogen dient als erste Orientierungshilfe und ersetzt keine persönliche Beratung.</p>
+
+    <!-- Add a visible border and background to surveyElement for debugging -->
+    <div id="surveyElement" style="border: 2px solid blue; padding: 10px; background-color: #f0f8ff;">
+        Loading Survey... (If you see this for more than a few seconds, there's a problem)
+    </div>
+
+    <div id="result" style="border: 2px solid green; padding: 10px; background-color: #f0fff0; display: none;">
+        Result will appear here.
+    </div>
+
+      <div class="disclaimer">
+        <strong>Hinweis:</strong> Dieser Fragebogen dient ausschliesslich der ersten Orientierung und stellt keine Finanz- oder Anlageberatung dar. Die Resultate sind unverbindlich und basieren auf Ihren Angaben. Für eine umfassende und individuelle Beratung empfehlen wir Ihnen, sich an einen qualifizierten Hypothekarberater zu wenden.
+    </div>
+</div>
+    <script type="text/javascript">
+
+        // *** DEBUGGING STEP 1:  Basic Alert ***
+        // alert("JavaScript is running!"); // Uncomment this to check if *any* JavaScript is running.
+
+        // *** DEBUGGING STEP 2: Minimal Survey ***
+        // Start with a *very* simple survey to make sure SurveyJS is loading and rendering.
+        const surveyJson = {
+            title: "Hypothekar-Ratgeber",
+            description: "Finden Sie die passende Finanzierungsstrategie...",
+            locale: "de",
+            pages: [
+                {
+                    name: "page1",
+                    elements: [
+                        {
+                            type: "radiogroup",
+                            name: "q1",  // Keep a name, even for the test question
+                            title: "Wie schätzen Sie Ihre persönliche Risikobereitschaft bezüglich der Hypothekarfinanzierung ein?", //Test question
+                            choices: [
+                                { value: "sicher", text: "Sehr sicherheitsorientiert (stabile, vorhersehbare Kosten sind mir wichtiger als potenziell tiefere Zinsen)" },
+                                { value: "ausgewogen", text: "Ausgewogen (ich suche eine Balance zwischen Stabilität und Kostenoptimierung)" },
+                                { value: "risikofreudig", text: "Risikofreudig (ich bin bereit, Zinsschwankungen in Kauf zu nehmen, um von potenziell tieferen Kosten zu profitieren)" },
+                            ],
+                            isRequired: true
+                        },
+                        {
+                            type: "radiogroup",
+                            name: "q2",
+                            title: "Wie schätzen Sie persönlich die Zinsentwicklung in den nächsten 3–5 Jahren ein?",
+                            choices: [
+                                { value: "steigend", text: "Steigend (ich erwarte, dass die Hypothekarzinsen tendenziell steigen werden)" },
+                                { value: "gleichbleibend", text: "Gleichbleibend (ich erwarte keine wesentlichen Veränderungen des aktuellen Zinsniveaus)" },
+                                { value: "fallend", text: "Fallend (ich erwarte, dass die Hypothekarzinsen tendenziell sinken werden)" },
+                            ],
+                            isRequired: true
+                        },
+                        {
+                            type: "radiogroup",
+                            name: "q3",
+                            title: "Wie beurteilen Sie den aktuellen Zinsabstand zwischen einer 2-jährigen und einer 10-jährigen Festhypothek?",
+                            choices: [
+                                { value: "klein", text: "Gering (weniger als 0,4 Prozentpunkte Unterschied)" },
+                                { value: "mittel", text: "Mittel (zwischen 0,4 und 0,8 Prozentpunkte Unterschied)" },
+                                { value: "gross", text: "Hoch (mehr als 0,8 Prozentpunkte Unterschied)" },
+                            ],
+                            isRequired: true
+                        },
+                        {
+                            type: "radiogroup",
+                            name: "q4",
+                            title: "Wie beurteilen Sie die langfristige Stabilität Ihrer finanziellen Situation in den nächsten 10 Jahren (Einkommen, berufliche Perspektiven, Vermögensentwicklung)?",
+                            choices: [
+                                { value: "stabil", text: "Sehr stabil und sicher (gesicherte Einkommenssituation, positive Vermögensentwicklung)" },
+                                { value: "gut", text: "Grundsätzlich stabil mit leichten Unsicherheiten (z.B. möglicher Stellenwechsel, Teilzeitarbeit)" },
+                                { value: "angespannt", text: "Mit erheblichen Unsicherheiten verbunden (z.B. befristete Anstellung, selbständige Tätigkeit, geplante grössere Ausgaben)" },
+                            ],
+                            isRequired: true
+                        },
+                        {
+                            type: "radiogroup",
+                            name: "q5",
+                            title: "Wie wichtig ist Ihnen Flexibilität im Vergleich zu Planungssicherheit?",
+                            choices: [
+                                { value: "flexibel", text: "Flexibilität ist sehr wichtig" },
+                                { value: "ausgewogen2", text: "Ein ausgewogenes Verhältnis ist ideal" },
+                                { value: "sicher2", text: "Planungssicherheit hat oberste Priorität" },
+                            ],
+                            isRequired: true
+                        },
+                         {
+                            type: "radiogroup",
+                            name: "q6",
+                            title: "Sind Sie bereit, regelmässig Hypothekarofferten zu vergleichen?",
+                            choices: [
+                                { value: "ja", text: "Ja, unbedingt" },
+                                { value: "nein", text: "Eher nicht" },
+                                { value: "vielleicht", text: "Vielleicht gelegentlich" },
+                            ],
+                            isRequired: true
+                        },
+                        {
+                            type: "radiogroup",
+                            name: "q7",
+                            title: "Wie lange planen Sie, das Wohneigentum zu besitzen?",
+                            choices: [
+                                { value: "kurz", text: "Kurzfristig (weniger als 5 Jahre)" },
+                                { value: "mittel2", text: "Mittelfristig (5-10 Jahre)" },
+                                { value: "lang", text: "Langfristig (mehr als 10 Jahre)" },
+                            ],
+                            isRequired: true
+                        },
+                        {
+                            type: "radiogroup",
+                            name: "q8",
+                            title: "Verfügen Sie über ausreichende, kurzfristig verfügbare finanzielle Reserven (Sparkonten, Wertschriften), um einen Zinsanstieg von 2% über mehrere Jahre oder unvorhergesehene Ausgaben zu bewältigen?",
+                            choices: [
+                                { value: "ja2", text: "Ja, umfangreiche Reserven (mehr als 12 Monatshypothekarzinsen)" },
+                                { value: "begrenzt", text: "Begrenzte Reserven (etwa 6-12 Monatshypothekarzinsen)" },
+                                { value: "nein2", text: "Kaum Reserven (weniger als 6 Monatshypothekarzinsen)" },
+                            ],
+                            isRequired: true
+                        },
+                        {
+                            type: "radiogroup",
+                            name: "q9",
+                            title: "Wie aktiv möchten Sie Ihre Hypothekarfinanzierung verwalten?",
+                            choices: [
+                                { value: "aktiv", text: "Sehr aktiv (ich verfolge regelmässig die Zinsentwicklung und bin bereit, meine Strategie entsprechend anzupassen)" },
+                                { value: "passiv", text: "Mässig aktiv (ich informiere mich gelegentlich, möchte aber keine ständigen Anpassungen vornehmen)" },
+                                { value: "sehrPassiv", text: "Passiv (ich möchte eine langfristige Lösung mit minimalem Verwaltungsaufwand)" },
+                            ],
+                            isRequired: true
+                        },
+                        {
+                            type: "radiogroup",
+                            name: "q10",
+                            title: "Sind Sie offen für ein Hypotheken-Splitting (Aufteilung in mehrere Tranchen)?",
+                            choices: [
+                                { value: "ja3", text: "Ja, das ist eine Option" },
+                                { value: "nein3", text: "Nein, lieber alles in einer Tranche" },
+                                { value: "unsicher", text: "Ich bin mir unsicher" },
+                            ],
+                            isRequired: true
+                        },
+                        {
+                            type: "radiogroup",
+                            name: "q11",
+                            title: "Steht Ihre Pensionierung in den nächsten 10 Jahren bevor?",
+                            choices: [
+                                { text: "Ja", value: "pensionJa" },
+                                { text: "Nein", value: "pensionNein" }
+                            ],
+                            isRequired: true
+                        },
+                        {
+                            type: "radiogroup",
+                            name: "q12",
+                            title: "Wie würde sich ein Zinsanstieg um 2 Prozentpunkte auf Ihre finanzielle Tragbarkeit auswirken (beachten Sie: die Tragbarkeitsgrenze liegt bei max. einem Drittel des Bruttoeinkommens für Wohnkosten)?",
+                            choices: [
+                                { value: "tragbarKeinProblem", text: "Unproblematisch (die Tragbarkeit wäre weiterhin deutlich unter der 33%-Grenze)" },
+                                { value: "tragbarAngespannt", text: "Grenzwertig (die Tragbarkeit würde sich der 33%-Grenze nähern oder leicht überschreiten)" },
+                                { value: "tragbarNein", text: "Kritisch (die Tragbarkeit würde deutlich über der 33%-Grenze liegen)" },
+                            ],
+                            isRequired: true
+                        }
+                    ]
+                }
+            ],
+             completedHtml: "<div id='result'></div>", // Where to put results
+            showQuestionNumbers: "off", //option to show or hide question numbers.
+        };
+
+        // 2. Create the SurveyJS model
+        const survey = new Survey.Model(surveyJson);
+
+        // *** DEBUGGING STEP 3: Check Survey Object ***
+        // console.log("Survey object:", survey); // Uncomment to inspect the created survey object.
+
+        // 3. Render the survey
+        survey.render("surveyElement");
+        // *** DEBUGGING STEP 4: Check Render Call ***
+        console.log("survey.render() called"); // See if this line is reached
+
+        // 4. Handle the completion (result calculation)
+       // *** DEBUGGING STEP 5: Simplified onComplete ***
+        survey.onComplete.add(function (sender) {
+            const answers = sender.data; // Get all answers
+            console.log("Answers:", answers); // Log the answers
+
+            let resultText = "";
+
+            // *** DEBUGGING STEP 6:  Check Individual Answers ***
+            // console.log("q1:", answers.q1);
+            // console.log("q2:", answers.q2); // ... and so on for other questions
+
+           // SARON-Hypothek
+            if (
+                (answers.q1 === "risikofreudig" || answers.q1 === "ausgewogen") &&
+                (answers.q2 !== "steigend" || answers.q9 === "aktiv") &&
+                answers.q12 === "tragbarKeinProblem"
+            ) {
+                console.log("Saron condition met"); // Check if this condition is reached
+                resultText += "<h2>Empfehlung: Saron-Hypothek</h2>";
+                resultText += "<p>Eine Saron-Hypothek (Geldmarkthypothek) könnte für Sie die richtige Wahl sein. Diese variable Hypothekarform basiert auf dem Swiss Average Rate Overnight (Saron), dem führenden Referenzzinssatz für den Schweizer Franken-Geldmarkt. Die Zinsen werden in der Regel alle 3, 6 oder 12 Monate an den aktuellen Saron-Satz angepasst.</p>";
+                resultText += "<p><strong>Aktuelle Marktsituation (März 2025):</strong></p>";
+                resultText += "<p>Der Saron liegt derzeit bei [aktuellen Wert einfügen]%. Saron-Hypotheken werden aktuell zu Konditionen ab ca. [aktuellen Wert einfügen]% angeboten (je nach Anbieter, Belehnungshöhe und Bonität).</p>";
+                resultText += "<p><strong>Vorteile:</strong></p>";
+                resultText += "<ul>";
+                resultText += "<li>Potenziell tiefere Zinskosten im Vergleich zu Festhypotheken, besonders wenn die Zinsen fallen oder gleich bleiben.</li>";
+                resultText += "<li>Hohe Flexibilität: Sie können in der Regel mit einer kurzen Frist (z.B. 3 Monate) kündigen oder in eine Festhypothek umwandeln, falls die Zinsen steigen.</li>";
+                resultText += "<li>Transparenz: Der Saron-Zinssatz ist öffentlich zugänglich und nachvollziehbar.</li>";
+                resultText += "</ul>";
+                resultText += "<p><strong>Nachteile:</strong></p>";
+                resultText += "<ul>";
+                resultText += "<li>Zinsrisiko: Bei steigenden Zinsen können Ihre monatlichen Raten steigen.</li>";
+                resultText += "<li>Erfordert finanzielle Reserven und/oder eine stabile finanzielle Situation: Sie sollten in der Lage sein, mögliche Zinsanstiege zu verkraften.</li>";
+                resultText += "</ul>";
+                resultText += "<p><strong>Für wen geeignet:</strong></p>";
+                resultText += "<ul>";
+                resultText += "<li>Wohneigentümer, die bereit sind, ein gewisses Zinsrisiko einzugehen und die Zinsentwicklung zu verfolgen.</li>";
+                resultText += "<li>Personen mit einer soliden finanziellen Situation und/oder genügend Reserven.</li>";
+                resultText += "<li>Kurz- bis mittelfristiger Anlagehorizont kann von Vorteil sein.</li>";
+                resultText += "</ul></p>";
+                resultText += "<p><strong>Zusätzliche Überlegungen:</strong></p>";
+                resultText += "<ul>";
+                resultText += "<li>Prüfen Sie die Möglichkeit eines «Caps» (Zinsobergrenze), um sich gegen extreme Zinsanstiege abzusichern.</li>";
+                resultText += "<li>Vergleichen Sie die Konditionen verschiedener Anbieter, da die Margen bei Saron-Hypotheken deutlich variieren können.</li>";
+                resultText += "<li>Überlegen Sie, ob eine 3-, 6- oder 12-monatliche Zinsanpassungsperiode für Sie optimal ist (kürzere Perioden oft günstiger, aber volatiler).</li>";
+                resultText += "<li>Die Tragbarkeitsberechnung der Bank berücksichtigt in der Regel einen Kalkulationszinssatz von 4,5–5%, nicht den aktuellen Zinssatz.</li>";
+                resultText += "</ul></p>";
+            }
+            // Kurzfristige Festhypothek
+            else if (
+              (answers.q1 === "sicher" || answers.q1 === "ausgewogen") &&
+              (answers.q7 === "kurz" || answers.q7 === "mittel2") &&
+              (answers.q5 === "ausgewogen2" || answers.q5 === "sicher2")
+            ) {
+                console.log("Kurzfrist condition met");
+                resultText += "<h2>Empfehlung: Kurz- bis mittelfristige Festhypothek (2–5 Jahre)</h2>";
+                resultText += "<p>Eine Festhypothek mit einer Laufzeit von 2 bis 5 Jahren bietet Ihnen einen ausgewogenen Kompromiss zwischen Planungssicherheit und Flexibilität. Sie sichern sich einen fixen Zinssatz für die gewählte Laufzeit und sind gleichzeitig in der Lage, mittelfristig auf Veränderungen am Zinsmarkt zu reagieren.</p>";
+                resultText += "<p><strong>Aktuelle Marktsituation (März 2025):</strong></p>";
+                resultText += "<p>Derzeit werden 2-jährige Festhypotheken zu Konditionen ab ca. [aktuellen Wert einfügen]% angeboten, 5-jährige ab ca. [aktuellen Wert einfügen]% (je nach Anbieter, Belehnungshöhe und Bonität).</p>";
+                resultText += "<p><strong>Vorteile:</strong></p>";
+                resultText += "<ul>";
+                resultText += "<li>Fester Zinssatz für die Laufzeit: Ihre monatlichen Raten bleiben konstant.</li>";
+                resultText += "<li>Geringeres Zinsänderungsrisiko als bei einer Saron-Hypothek.</li>";
+                resultText += "<li>Nach Ablauf der Laufzeit können Sie die Hypothek neu verhandeln oder den Anbieter wechseln.</li>";
+                resultText += "</ul>";
+                resultText += "<p><strong>Nachteile:</strong></p>";
+                resultText += "<ul>";
+                resultText += "<li>Potenziell höhere Zinskosten als bei einer Saron-Hypothek, wenn die Zinsen fallen.</li>";
+                resultText += "<li>Weniger Flexibilität als bei einer Saron-Hypothek.</li>";
+                resultText += "</ul>";
+                resultText += "<p><strong>Für wen geeignet:</strong></p>";
+                resultText += "<ul>";
+                resultText += "<li>Wohneigentümer, die kurz- bis mittelfristige Planungssicherheit wünschen.</li>";
+                resultText += "<li>Personen, die eine gewisse Flexibilität behalten möchten, um nach Ablauf der Laufzeit neu zu entscheiden.</li>";
+                resultText += "<li>Wenn eine baldige Pensionierung ansteht, sollte eine Tragbarkeitsberechnung vorgenommen werden.</li>";
+                resultText += "</ul></p>";
+                resultText += "<p><strong>Zusätzliche Überlegungen:</strong></p>";
+                resultText += "<ul>";
+                resultText += "<li>Achten Sie darauf, dass der Ablauf Ihrer Hypothek nicht in die Ferienzeit oder andere ungünstige Zeiträume fällt (idealerweise 4–6 Monate vor Ablauf mit der Neuverhandlung beginnen).</li>";
+                resultText += "<li>Prüfen Sie, ob Sie von Forward-Hypotheken profitieren können, um sich heute schon günstige Zinsen für die Zukunft zu sichern.</li>";
+                resultText += "<li>Der direkte Richtwert für die Tragbarkeit ist der sogenannte Kalkulationszinssatz von 4,5–5%, nicht der effektive Zinssatz Ihrer Hypothek.</li>";
+                resultText += "<li>Steuerliche Aspekte: Die Hypothekarzinsen können in der Schweiz vom steuerpflichtigen Einkommen abgezogen werden.</li>";
+                resultText += "</ul></p>";
+            }
+            // Langfristige Festhypothek
+            else if (
+                (answers.q1 === "sicher") &&
+                (answers.q7 === "lang") &&
+                (answers.q9 === "sehrPassiv" || answers.q9 === "passiv")
+            ) {
+                console.log("Langfrist condition met");
+                resultText += "<h2>Empfehlung: Langfristige Festhypothek (10+ Jahre)</h2>";
+                resultText += "<p>Eine langfristige Festhypothek (10, 15 oder sogar bis zu 25 Jahre) bietet Ihnen maximale Planungssicherheit. Sie fixieren den aktuellen Zinssatz für die gesamte Laufzeit und schützen sich vollständig vor Zinserhöhungen.</p>";
+                resultText += "<p><strong>Aktuelle Marktsituation (März 2025):</strong></p>";
+                resultText += "<p>Derzeit werden 10-jährige Festhypotheken zu Konditionen ab ca. [aktuellen Wert einfügen]% angeboten, 15-jährige ab ca. [aktuellen Wert einfügen]% (je nach Anbieter, Belehnungshöhe und Bonität).</p>";
+                resultText += "<p><strong>Vorteile:</strong></p>";
+                resultText += "<ul>";
+                resultText += "<li>Konstante monatliche Raten über die gesamte Laufzeit.</li>";
+                resultText += "<li>Kein Zinsänderungsrisiko.</li>";
+                resultText += "<li>Ideal für langfristige Planung.</li>";
+                resultText += "</ul>";
+                resultText += "<p><strong>Nachteile:</strong></p>";
+                resultText += "<ul>";
+                resultText += "<li>Potenziell höhere Zinskosten als bei kürzeren Laufzeiten oder variablen Hypotheken, wenn die Zinsen fallen.</li>";
+                resultText += "<li>Geringe Flexibilität: Ein vorzeitiger Ausstieg kann teuer werden (Vorfälligkeitsentschädigung).</li>";
+                resultText += "</ul>";
+                resultText += "<p><strong>Für wen geeignet:</strong></p>";
+                resultText += "<ul>";
+                resultText += "<li>Sicherheitsorientierte Wohneigentümer mit langfristigem Anlagehorizont.</li>";
+                resultText += "<li>Personen, die Wert auf maximale Planbarkeit legen und sich keine Sorgen um Zinsänderungen machen möchten.</li>";
+                resultText += "<li>Wenn die Zinskurve flach ist (geringer Zinsabstand zwischen kurzen und langen Laufzeiten), kann eine lange Laufzeit besonders attraktiv sein.</li>";
+                resultText += "</ul></p>";
+                resultText += "<p><strong>Zusätzliche Überlegungen:</strong></p>";
+                resultText += "<ul>";
+                resultText += "<li>Vorzeitige Auflösung: Bei einer vorzeitigen Auflösung der Hypothek wird in der Regel eine Vorfälligkeitsentschädigung fällig. Diese kann je nach verbleibender Laufzeit und Zinsdifferenz erheblich sein.</li>";
+                resultText += "<li>Amortisation: Prüfen Sie die Möglichkeit einer indirekten Amortisation über die Säule 3a, um von Steuervorteilen zu profitieren.</li>";
+                resultText += "<li>Überprüfen Sie etwa sechs Monate vor Ablauf der Laufzeit die Konditionen für eine Anschlussfinanzierung, um genügend Zeit für Verhandlungen und Vergleiche zu haben.</li>";
+                resultText += "<li>Die aktuelle Zinskurve ist [flach/steil] – dies bedeutet, dass langfristige Hypotheken im historischen Vergleich [verhältnismässig günstig/teuer] sind.</li>";
+                resultText += "</ul></p>";
+
+            }
+            // Splitting
+            else if (answers.q10 === "ja3" || answers.q10 === "unsicher")
+            {
+                console.log("Splitting condition met");
+                resultText += "<h2>Empfehlung: Hypotheken-Splitting</h2>";
+                resultText += "<p>Das Hypotheken-Splitting (die Aufteilung Ihrer Hypothek in mehrere Tranchen mit verschiedenen Laufzeiten und/oder Hypothekarmodellen) bietet eine ausgewogene Risikodiversifikation. Damit können Sie sowohl von der Planungssicherheit längerfristiger Hypotheken als auch von der Flexibilität kurzfristiger Varianten profitieren.</p>";
+                resultText += "<p><strong>Optimiertes Beispiel-Splitting:</strong></p>";
+                resultText += "<ul>";
+                resultText += "<li>40% Saron-Hypothek (für maximale Flexibilität und aktuell tiefe Zinsen)</li>";
+                resultText += "<li>30% mittelfristige Festhypothek (5 Jahre, für mittelfristige Stabilität)</li>";
+                resultText += "<li>30% langfristige Festhypothek (10 Jahre, für langfristige Planungssicherheit)</li>";
+                resultText += "</ul>";
+                resultText += "<p><strong>Vorteile:</strong></p>";
+                resultText += "<ul>";
+                resultText += "<li>Diversifikation des Zinsrisikos: Sie sind nicht von einer einzigen Zinsentwicklung abhängig.</li>";
+                resultText += "<li>Kombination von Vorteilen verschiedener Hypothekenarten (z.B. Flexibilität der Saron-Hypothek und Planungssicherheit der Festhypothek).</li>";
+                resultText += "</ul>";
+                resultText += "<p><strong>Nachteile:</strong></p>";
+                resultText += "<ul>";
+                resultText += "<li>Kann komplexer sein als eine einzelne Hypothek.</li>";
+                resultText += "<li>Kann die Flexibilität beim Wechsel des Anbieters einschränken, wenn die Laufzeiten der Tranchen zu weit auseinanderliegen.</li>";
+                resultText += "</ul>";
+                resultText += "<p><strong>Für wen geeignet:</strong></p>";
+                resultText += "<ul>";
+                resultText += "<li>Wohneigentümer, die eine ausgewogene Strategie suchen und Risiken streuen möchten.</li>";
+                resultText += "<li>Personen, die sich nicht auf eine einzige Hypothekenart oder Laufzeit festlegen möchten.</li>";
+                resultText += "</ul></p>";
+                resultText += "<p><strong>Empfehlungen für effektives Splitting:</strong></p>";
+                resultText += "<ul>";
+                resultText += "<li>Verteilen Sie die Ablaufdaten der Festhypotheken-Tranchen sinnvoll über die Zeit (Staffelung), um nicht mehrere Tranchen gleichzeitig in möglicherweise ungünstigen Marktphasen erneuern zu müssen.</li>";
+                resultText += "<li>Vermeiden Sie zu kleine Tranchen (unter CHF 100'000), da diese oft zu schlechteren Konditionen führen.</li>";
+                resultText += "<li>Konzentrieren Sie nie mehr als 50% des Gesamtvolumens in einer einzigen Tranche, um Klumpenrisiken zu vermeiden.</li>";
+                resultText += "<li>Überprüfen Sie jährlich, ob Ihre Splitting-Strategie noch optimal zu Ihrer finanziellen Situation und den aktuellen Marktbedingungen passt.</li>";
+                resultText += "</ul></p>";
+            }
+            // Individuelle Beratung
+            else {
+                console.log("Beratung condition met");
+                resultText += "<h2>Individuelle Beratung empfohlen</h2>";
+                resultText += "<p>Basierend auf Ihren Antworten ist eine massgeschneiderte Beratung für Ihre spezifische Situation empfehlenswert. Die Komplexität Ihrer Ausgangslage erfordert eine detailliertere Analyse durch Fachpersonen.</p>";
+                resultText += "<p><strong>Nächste Schritte für Sie:</strong></p>";
+                resultText += "<ul>";
+                resultText += "<li>Holen Sie Offerten von mindestens drei verschiedenen Anbietern ein (Ihre Hausbank, eine weitere Bank und einen unabhängigen Hypothekenvermittler).</li>";
+                resultText += "<li>Bereiten Sie für das Beratungsgespräch folgende Unterlagen vor: aktuelle Lohnausweise, Steuererklärung, Betreibungsregisterauszug, Grundbuchauszug, bestehende Hypothekarverträge und Details zu Ihren Vermögenswerten.</li>";
+                resultText += "<li>Klären Sie folgende Punkte im Beratungsgespräch: aktuelle Zinssätze, mögliche Szenarien der Zinsentwicklung, optimale Amortisationsstrategie (direkt vs. indirekt), steuerliche Optimierungsmöglichkeiten und Empfehlungen zur Eigenkapitalstruktur.</li>";
+                resultText += "<li>Überlegen Sie sich vorab, welche langfristigen Veränderungen anstehen könnten (Familiengründung, Pensionierung, Erwerbsreduktion, Renovation) und besprechen Sie diese mit Ihrem Berater.</li>";
+                resultText += "</ul></p>";
+                resultText += "<p>Mit einer professionellen Beratung können Sie eine optimale, auf Ihre persönlichen Bedürfnisse abgestimmte Hypothekarstrategie entwickeln, die sowohl Kosten als auch Risiken minimiert.</p>";
+            }
+
+            document.getElementById('result').innerHTML = resultText;
+        });
+
+    </script>
+</body>
+</html>
