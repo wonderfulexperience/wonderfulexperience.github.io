@@ -219,7 +219,7 @@
     const survey = new Survey.Model(surveyJson);
 
     // *** APPLY THE THEME (IMPORTANT for SurveyJS 2.x) ***
-    survey.applyTheme(SurveyTheme.defaultV2); // Use the defaultV2 theme.
+    survey.applyTheme(Survey.StylesManager.applyTheme("defaultV2")); // Use the defaultV2 theme.
     // OR, to use a different theme (e.g., "modern"):
     // survey.applyTheme(SurveyTheme.modern);
 
